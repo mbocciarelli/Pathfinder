@@ -1,9 +1,9 @@
 set(PATHFINDING_SYSTEM_HEADERS
-        includes/PathfindingSystem.hpp
+        PathfindingSystem.hpp
         )
 
 set(PATHFINDING_SYSTEM_SOURCES
-        src/PathfindingSystem.cpp
+        PathfindingSystem.cpp
         )
 
 add_library(PathfindingSystem STATIC ${PATHFINDING_SYSTEM_HEADERS} ${PATHFINDING_SYSTEM_SOURCES})
