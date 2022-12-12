@@ -1,12 +1,32 @@
 #include <SFML/Graphics.hpp>
-#include <PathfindingSystem.hpp>
+//#include <PathfindingSystem.hpp>
+
+#include <vector>
+#include "Scene.hpp"
+
 
 int main()
 {
-    Bar();
-    /*sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+    //Bar();
+    /*sf::RenderWindow window(sf::VideoMode(1920, 1080), "SFML works!");
+
+    std::vector<sf::CircleShape> shapes;
+
+    int l = 0, c = 0;
+    for (int i = 0; i < 10000; i++)
+    {
+        sf::CircleShape shape(50.f);
+        shape.setFillColor(sf::Color::Green);
+        shape.setPosition(sf::Vector2f(l * 100.f, c * 100.f));
+        shapes.push_back(shape);
+
+        ++l;
+        if (l * 100.f > 1920 - 100.f)
+        {
+            l = 0;
+            ++c;
+        }
+    }
 
     while (window.isOpen())
     {
@@ -18,9 +38,15 @@ int main()
         }
 
         window.clear();
-        window.draw(shape);
+        for(sf::CircleShape shape : shapes)
+            window.draw(shape);
         window.display();
     }*/
+
+    Scene scene;
+    
+    if(scene.init())
+        scene.start();
 
     return 0;
 }

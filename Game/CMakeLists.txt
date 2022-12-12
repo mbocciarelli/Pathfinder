@@ -1,9 +1,9 @@
 set(GAME_HEADERS
-        )
+           "Scene.hpp" "Component/Component.hpp" "Component/Sprite.hpp"   "Entity/Tile.hpp" "SpriteRenderer.hpp" "Entity/SquareTile.hpp")
 
 set(GAME_SOURCES
         main.cpp
-        )
+           "Scene.cpp")
 
 find_package(SFML COMPONENTS system window graphics CONFIG REQUIRED)
 add_executable(Game ${GAME_HEADERS} ${GAME_SOURCES})
