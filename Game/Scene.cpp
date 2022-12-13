@@ -6,9 +6,7 @@ bool Scene::init()
 {
     window.create(sf::VideoMode(1920, 1080), "SFML works!");
     sf::Texture model;
-    //system("dir");
-
-    if (!model.loadFromFile("C:/Users/valen/Desktop/Pathfinder/Game/Sprite/BlueSquareMedium.png"))
+    if (!model.loadFromFile("D:/Cours Ynov/ProjetM2/Pathfinder/Game/Sprite/BlueSquareMedium.png"))
         return false;
 
     TilePosition currentPosition {0, 0};
@@ -26,16 +24,14 @@ bool Scene::init()
         {
             auto tile = new SquareTile();
             mTiles.push_back(tile);
-            tile->create("C:/Users/valen/Desktop/Pathfinder/Game/Sprite/BlueSquareMedium.png");
+            tile->SetTileType<TileType::Ground>();
             tile->SetTilePosition(currentPosition);
             if (currentPosition.x == 4 && currentPosition.y == 4) {
-                tile->SetTileType(Start);
-                tile->create("C:/Users/valen/Desktop/Pathfinder/Game/Sprite/GreenSquareMedium.png");
+                tile->SetTileType<TileType::Start>();
             }
 
             if (currentPosition.x == 20 && currentPosition.y == 5) {
-                tile->SetTileType(End);
-                tile->create("C:/Users/valen/Desktop/Pathfinder/Game/Sprite/RedSquareMedium.png");
+                tile->SetTileType<TileType::End>();
             }
             currentPosition.x++;
         }
@@ -57,8 +53,6 @@ void Scene::start() {
         }
 
         update();
-        
-
         window.clear();
         render();
         window.display();
@@ -71,6 +65,9 @@ void Scene::update()
     {
         tile->update(margeMap.x, margeMap.y, margeTile.x, margeTile.y);
     }
+
+   /* if (start and end)
+        pathfinding.update();*/
 }
 
 void Scene::render()
@@ -79,4 +76,7 @@ void Scene::render()
     {
         SpriteRenderer().render(tile->GetSprite(), &window);
     }
+
+    /*if (start and end)
+        pathfinding.render(&windows);*/
 }
