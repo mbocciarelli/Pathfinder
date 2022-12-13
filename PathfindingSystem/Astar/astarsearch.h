@@ -45,7 +45,7 @@ private:
 		//Get Node at the position in the grid
 		Node* node = &(*m_grid->GetNodeAt(_i, _j));
 		//don't process walls
-		if (node->type == Grid::S_WALL_TYPE || node->type == Grid::S_START_TYPE)
+		if (m_grid->IsAnObstacle(node->type))
 			return;
 		//Set cost if not done yet
 		if (node->cost == 0)

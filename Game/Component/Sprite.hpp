@@ -14,7 +14,7 @@ public:
 	{
 	}
 
-	void create(std::string path)
+	void CreateSprite(std::string path)
 	{
 		mPathTexture = path;
 		LoadSprite();
