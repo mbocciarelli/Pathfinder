@@ -24,7 +24,7 @@ bool Scene::init()
     int tileWidth = mapSizeY / sizeTileY;
 
     //Grille Pathfinder
-    Grid* grid = new Grid(tileWidth, tileHeight,sizeTileX,sizeTileY);
+    Grid* grid = new Grid(tileWidth, tileHeight, sizeTileX, sizeTileY);
     astar =new AstarExe(grid);
 
     for (int i = 0; i < tileWidth; i++)
@@ -35,13 +35,15 @@ bool Scene::init()
             mTiles.push_back(tile);
             tile->SetTileType<TileType::Ground>();
             tile->SetTilePosition(currentPosition);
-            if (currentPosition.x == 4 && currentPosition.y == 4) {
+            //TO TEST PATHFINDING
+            if (currentPosition.x == 7 && currentPosition.y == 4) {
                 tile->SetTileType<TileType::Start>();
             }
 
             if (currentPosition.x == 20 && currentPosition.y == 5) {
                 tile->SetTileType<TileType::End>();
             }
+
             grid->SetNodeInGrid((int)tile->GetTileType(), currentPosition.x, currentPosition.y);
 
             currentPosition.x++;
@@ -66,6 +68,10 @@ void Scene::start() {
         {
             if (event.type == sf::Event::Closed)
                 window.close();
+            if (event.type == sf::Event::KeyPressed) {
+                //Update Astar
+              
+            }
         }
 
         update();
@@ -81,9 +87,10 @@ void Scene::update()
     {
         tile->update(margeMap.x, margeMap.y, margeTile.x, margeTile.y);
     }
-    astar->Update();
+   // astar->Update();
     /*if (start && end)
         pathfinding.update();*/
+    astar->Update();
 }
 
 void Scene::render()
@@ -92,6 +99,10 @@ void Scene::render()
     {
         SpriteRenderer().render(tile->GetSprite(), &window);
     }
+
+    
     /*if (start and end)
         pathfinding.render(&windows);*/
+    astar->Draw(window, margeMap.x, margeMap.y);
+    
 }

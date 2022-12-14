@@ -8,6 +8,8 @@ public:
     int heuristic;
     int cost;
 
+
+
     Node* parent = nullptr;
 
     bool visited = false;

@@ -21,26 +21,27 @@ private:
 	int m_width = 0;
 	int m_height = 0;
 
-	static const int S_WALL_TYPE = 0;
-	static const int S_GROUND_TYPE = 1;
-	static const int S_START_TYPE = 2;
-	static const int S_GOAL_TYPE = 3;
+	static const int S_WALL_TYPE = 3;
+	static const int S_GROUND_TYPE = 2;
+	static const int S_START_TYPE = 0;
+	static const int S_GOAL_TYPE = 1;
 
 public:
-	void SetValueAt(int width, int height, int type) 
+	void SetValueAt(int type, int line, int col) 
 	{
-		const unsigned int index = width * width + height;
+		const unsigned int index = col * m_height + line;
 		if (index < m_gridData.size())
 		{
-			m_gridData[index].line = width;
-			m_gridData[index].column = height;
+			m_gridData[index].line = line;
+			m_gridData[index].column = col;
 			m_gridData[index].type = type;
 		}
 	};
 
-	Node* GetNodeAt(int col, int line)
+	Node* GetNodeAt(int line, int col)
 	{
-		const unsigned int index = col * m_width + line;
+		const unsigned int index = col * m_height + line;
+		std::cout << "Col : " << col << " MHeight : " << m_height << " Line : " << line << std::endl;
 		if (index < m_gridData.size())
 		{
 			return &m_gridData[index];
@@ -49,12 +50,13 @@ public:
 		return nullptr;
 	};
 
-	void SetStart(int width, int height) {
-		m_startingNode = GetNodeAt(width, height);
+	void SetStart(int line, int col) {
+		m_startingNode = GetNodeAt(line, col);
+		
 	}
 
-	void SetEnd(int width, int height) {
-		m_goalNode = GetNodeAt(width, height);
+	void SetEnd(int line, int col) {
+		m_goalNode = GetNodeAt(line, col);
 	}
 
 	bool StartAndEndSetup() {
@@ -80,64 +82,64 @@ public:
 	{
 		m_cellWidth = sizeTilex;
 		m_cellHeight = sizeTiley;
+		m_width = width;
+		m_height = height;
+
+
 		m_gridData.resize(width * height);
 	};
 	~Grid() = default;
-	Node* GetStartNode() { return m_startingNode; };
+	Node* GetStartNode() { 
+		return m_startingNode; 
+	};
 	Node* GetGoalNode() { return m_goalNode; };
-	void SetStartNode() {}
 
 
 	void SetNodeInGrid(int type,int tileposX, int tileposY)
 	{
-		m_width = tileposX;
-		m_height = tileposY;
-		Node* node = GetNodeAt(tileposY, tileposX);
+		Node* node = GetNodeAt(tileposX, tileposY);
 		node->type = type;
+		if (type == S_START_TYPE)SetStart(tileposX, tileposY);
+		if (type == S_GOAL_TYPE)SetEnd(tileposX, tileposY);
+		//if (type == S_WALL_TYPE));
+
 		node->column = tileposY;
 		node->line = tileposX;
+		
 	}
 
-	void Draw(sf::RenderWindow& _window) const
+	void Draw(sf::RenderWindow& _window, int margeX, int margeY) const
 	{
 		//create rect template for the grid
 		sf::RectangleShape rect;
-		rect.setSize(sf::Vector2f(m_cellWidth, m_cellWidth));
+		rect.setSize(sf::Vector2f(m_cellWidth/2, m_cellHeight /2));
+		//rect.setSize(sf::Vector2f(25, 25));
+		
 
 		//
-		for (int j = 0; j < m_height; j++) {
-			for (int i = 0; i < m_width; i++) {
+		for (int j = 0; j < m_width; j++) {
+			for (int i = 0; i < m_height ; i++) {
 				//get the type of the cell
-				const Node& node = m_gridData[j * m_width + i];
+				const Node& node = m_gridData[j * m_height + i];
+				
 				//Colorize it
 				switch (node.type) {
-				/*case S_GROUND_TYPE: rect.setFillColor(sf::Color::White); break;
+				case S_GROUND_TYPE: rect.setFillColor(sf::Color::White); break;
 				case S_WALL_TYPE: rect.setFillColor(sf::Color::Black); break;
-				case S_GOAL_TYPE: rect.setFillColor(sf::Color::Red); break;
-				case S_START_TYPE: rect.setFillColor(sf::Color::Blue); break;
-				*/
+				//case S_GOAL_TYPE: rect.setFillColor(sf::Color::Red); break;
+				//case S_START_TYPE: rect.setFillColor(sf::Color::Blue); break;
 				}
 				if (node.visited == true && node.type != Grid::S_START_TYPE) {
-					rect.setFillColor(sf::Color::Yellow);
+					rect.setFillColor(sf::Color::Magenta);
 				}
 				if (node.finalWayID >= 0) {
 					rect.setFillColor(sf::Color::Green);
 				}
 				//set position 
-				rect.setPosition(sf::Vector2f(i * 64, j * 64));
+				rect.setPosition(sf::Vector2f(i *( m_cellWidth - 10)+ margeX + i*10 + ((m_cellWidth -10)/4), j * (m_cellHeight - 10) + margeY + j * 10 + ((m_cellHeight - 10) / 4)));
+				//rect.setPosition(sf::Vector2f(i * 64, j * 64));
 				//then finally draw
 				_window.draw(rect);
-				//TEXT
-				/*text.setString(std::to_string(node->i)+","+std::to_string(node->j));
-				text.setPosition(sf::Vector2f(i * 64, j * 64));
-				text.setColor(sf::Color::Red);
-				text.setCharacterSize(15);
-				_window.draw(text);
-				//cost
-				text.setColor(sf::Color::Black);
-				text.setPosition(sf::Vector2f(i * 64, j * 64 +20));
-				text.setString("c"+std::to_string(node->cost) + ", h" + std::to_string(node->heuristic));
-				_window->draw(text);*/
 			}
 		}
 	}

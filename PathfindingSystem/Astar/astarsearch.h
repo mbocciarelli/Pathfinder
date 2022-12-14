@@ -29,18 +29,18 @@ private:
 	};
 	void CheckNeighbours(Node* _node)
 	{
-		CheckNode(_node->column, _node->line - 1, _node->cost + 1, _node);
+		CheckNode(_node->line, _node->column - 1, _node->cost + 1, _node);
 		//down
-		CheckNode(_node->column, _node->line + 1, _node->cost + 1, _node);
+		CheckNode(_node->line, _node->column + 1, _node->cost + 1, _node);
 		//left
-		CheckNode(_node->column - 1, _node->line, _node->cost + 1, _node);
+		CheckNode(_node->line - 1, _node->column, _node->cost + 1, _node);
 		//right
-		CheckNode(_node->column + 1, _node->line, _node->cost + 1, _node);
+		CheckNode(_node->line + 1, _node->column, _node->cost + 1, _node);
 	};
 	void CheckNode(int i, int j, int _cost, Node* _parent)
 	{
 		//out of bounds
-		if (i < 0 || i > m_grid->GetWidth() - 1 || j < 0 || j > m_grid->GetHeight() - 1)
+		if (i < 0 || i > m_grid->GetHeight() - 1 || j < 0 || j > m_grid->GetWidth() - 1)
 			return;
 		//Get Node at the position in the grid
 		Node* node = &(*m_grid->GetNodeAt(i, j));
@@ -58,7 +58,7 @@ private:
 		if (!inOpen && !inClosed) {
 			node->parent = _parent;
 			ComputeHeuristic(node);
-			printf("[OPEN] Node (%d,%d) added (h:%d)\n", i, j, node->heuristic);
+			//printf("[OPEN] Node (%d,%d) added (h:%d)\n", i, j, node->heuristic);
 			m_open.push_back(node);
 		}
 	};
@@ -79,7 +79,7 @@ private:
 		Node* tempNode;
 		//find best heuristic index
 		for (int i = 0; i < m_open.size(); i++) {
-			tempNode = m_open.at(i));
+			tempNode = m_open.at(i);
 			/*if ((tempNode->heuristic < bestHeuristic)
 				 || (tempNode->heuristic == bestHeuristic && tempNode->cost < bestCost) ) {
 				bestIndex = i;
@@ -126,6 +126,10 @@ public:
 	};
 	~AstarExe() = default;
 
+	void Draw(sf::RenderWindow& _window, int margeX, int margeY) const {
+		m_grid->Draw(_window,margeX,margeY);
+	};
+
 	void Start()
 	{
 		m_started = true;
@@ -151,8 +155,9 @@ public:
 		//keep position
 		int i = m_processingNode->column, j = m_processingNode->line;
 
+		//printf("------ %d ProCESSing Node (%d,%d) -------\n", m_debugCount, i, j);
 		printf("------ %d ProCESSing Node (%d,%d) -------\n", m_debugCount, i, j);
-
+		
 		//check if this is the goal
 		if (m_processingNode->Equals(m_goalNode)) {
 			printf("Found Goal\n");
