@@ -84,15 +84,34 @@ namespace InputManager {
         });
     }
 
-
-
-/*
-    void InterfaceContentNode::DrawEachChild(sf::RenderWindow &window) {
-        std::function<void (InterfaceContentNode *)> lambda = [&window](InterfaceContentNode *node) {
-            node->Draw(window);
-        };
-        this->traverse(lambda);
+    template<typename Derived>
+    void InterfaceContentNode<Derived>::setSize(WidthHeight size) {
+        _size = size;
     }
-*/
 
+    template<typename Derived>
+    WidthHeight InterfaceContentNode<Derived>::getSize() const {
+        return WidthHeight();
+    }
+
+    template<typename Derived>
+    nodePosition InterfaceContentNode<Derived>::getAbsolutePosition() {
+        if (m_parent == nullptr) {
+            return this->_position;
+        } else {
+            return this->_position + m_parent->getAbsolutePosition();
+        }
+    }
+
+    template<typename Derived>
+    void InterfaceContentNode<Derived>::setRelativePosition(nodePosition position) {
+        _position = position;
+        nodePosition absolutePosition = getAbsolutePosition();
+        _sprite->setPosition(absolutePosition.x, absolutePosition.y);
+    }
+
+    template<typename Derived>
+    nodePosition InterfaceContentNode<Derived>::getRelativePosition() {
+        return nodePosition();
+    }
 } // InputManager

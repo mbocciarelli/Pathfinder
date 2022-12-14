@@ -45,7 +45,7 @@ namespace InputManager {
         }
 
         // get callback function
-        std::function<void()> GetCallback() {
+        std::function<void(sf::Event)> GetCallback() {
             return _tree->getCurrentNode()->_callback;
         }
 
@@ -69,9 +69,14 @@ namespace InputManager {
 
         void mousePressed(sf::Event event) {
             // if pressed on sprite of visible nodes
-            _tree->getRoot()->traverseVisible(event);
+            InterfaceContentRoot *treeRoot = _tree->getRoot();
+            InterfaceContentRoot *current = _tree->getCurrentNode();
+            InterfaceContentRoot *clickedNode = treeRoot->getClickedNode(event);    /* FIXME:   Game/InputManager/InterfaceContentNode.h:142:17: error: no matching function for call to object of type 'InputManager::InterfaceContentNode<InputManager::InterfaceContentRoot>::TraverseCallbackType' (aka 'function<void (InputManager::InterfaceContentRoot *)>')
+                                                                                                fn(this);*/
 
-            switch (current->_contentType) {
+
+
+            switch (clickedNode->_contentType) {
                 case ContentType::BUTTON:
                     current->getCallback()(event);
                     break;

@@ -9,7 +9,9 @@ namespace InputManager {
         TEXTFIELD,
         TEXT,
         SPRITE,
-        CONTENTBLOCK
+        CONTENTBLOCK,
+        MAP,
+        MAPTILE
     };
     struct nodePosition{
         float x;
@@ -34,6 +36,21 @@ namespace InputManager {
         }
     };
 
+    struct WidthHeight{
+        float width;
+        float height;
+
+        WidthHeight(float width, float height) {
+            this->width = width;
+            this->height = height;
+        }
+
+        WidthHeight() {
+            this->width = 0;
+            this->height = 0;
+        }
+    };
+
     template<typename Derived>
     class InterfaceContentNode{
 
@@ -42,6 +59,7 @@ namespace InputManager {
         bool _visible;
         bool _clickable;
         nodePosition _position;
+        WidthHeight _size;
         sf::Sprite *_sprite;
         ContentType _contentType;
         // IState<InterfaceContentNode> _state;
@@ -89,7 +107,7 @@ namespace InputManager {
         // array of contentOptions
         void traverseVisible(TraverseCallbackType fn)
         {
-            if (static_cast<Derived*>(this)->isVisibled()) {
+            if (static_cast<Derived*>(this)->isVisible()) {
                 for (auto &son: m_sons)
                     son->traverseVisible(fn);
 
@@ -104,6 +122,45 @@ namespace InputManager {
 
             fn(this);
         }
+
+        void traverseClickable(TraverseCallbackType fn)
+        {
+            if (static_cast<Derived*>(this)->isClickable()) {
+                for (auto &son: m_sons)
+                    son->traverseClickable(fn);
+
+                fn(this);
+            }
+        }
+
+        void traverseClickableVisible(TraverseCallbackType fn)
+        {
+            if (static_cast<Derived*>(this)->isClickable() && static_cast<Derived*>(this)->isVisible()) {
+                for (auto &son: m_sons)
+                    son->traverseClickableVisible(fn);
+
+                fn(this);
+            }
+        }
+
+        Derived* getClickedNode(sf::Event event) {
+            Derived* clickedElement = nullptr;
+            traverseClickableVisible([&](Derived* node) {
+                if (node->isClicked(event)) {
+                    clickedElement = node;
+                }
+            });
+            return clickedElement;
+        }
+
+        bool isClicked(sf::Event event) {
+            nodePosition absolutePosition = this->getAbsolutePosition();
+            bool x_test = event.mouseButton.x >= absolutePosition.x && event.mouseButton.x <= absolutePosition.x + this->_size.width;
+            bool y_test = event.mouseButton.y >= absolutePosition.y && event.mouseButton.y <= absolutePosition.y + this->_size.height;
+            return x_test && y_test;
+        }
+
+
 
         const std::string &getName() const;
 
@@ -139,6 +196,10 @@ namespace InputManager {
 
         void DrawEachChild(sf::RenderWindow &window);
 
+        WidthHeight getSize() const;
+
+        void setSize(WidthHeight size);
+
     protected:
         void _add(InterfaceContentNode* newChild)
         {
@@ -158,27 +219,6 @@ namespace InputManager {
         InterfaceContentNode<Derived>* m_parent;
     };
 
-    template<typename Derived>
-    nodePosition InterfaceContentNode<Derived>::getAbsolutePosition() {
-        if (m_parent == nullptr) {
-            return this->_position;
-        } else {
-            return this->_position + m_parent->getAbsolutePosition();
-        }
-    }
-
-    template<typename Derived>
-    void InterfaceContentNode<Derived>::setRelativePosition(nodePosition position) {
-        _position = position;
-        nodePosition absolutePosition = getAbsolutePosition();
-        _sprite->setPosition(absolutePosition.x, absolutePosition.y);
-    }
-
-    template<typename Derived>
-    nodePosition InterfaceContentNode<Derived>::getRelativePosition() {
-        return nodePosition();
-    }
-
     class InterfaceContentRoot : public InterfaceContentNode<InterfaceContentRoot> {
     public:
         InterfaceContentRoot() : InterfaceContentNode<InterfaceContentRoot>() {
@@ -187,6 +227,5 @@ namespace InputManager {
         virtual ~InterfaceContentRoot() = default;
 
     };
-
 
 } // InputManager
