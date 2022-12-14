@@ -67,7 +67,7 @@ namespace InputManager {
 
     template<typename Derived>
     void InterfaceContentNode<Derived>::Draw(sf::RenderWindow &window) {
-        if(_visible) {
+        if(this->isVisible()) {
             window.draw(*_sprite);
         }
     }
@@ -76,12 +76,10 @@ namespace InputManager {
 
     template<typename Derived>
     void InterfaceContentNode<Derived>::DrawEachChild(sf::RenderWindow &window) {
-        // !visibled don't draw node and his children
-        this->traverseVisible([&window](InterfaceContentNode<Derived> *node) {
-            if(node->isVisibled()) {
-                node->Draw(window);
-            }
-        });
+        auto lambda = [&window](Derived *node) {
+            node->Draw(window);
+        };
+        this->traverseVisible(lambda);
     }
 
     template<typename Derived>

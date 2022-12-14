@@ -5,6 +5,7 @@
 
 namespace InputManager {
     enum ContentType{
+        ROOT,
         BUTTON,
         TEXTFIELD,
         TEXT,
@@ -223,6 +224,7 @@ namespace InputManager {
     public:
         InterfaceContentRoot() : InterfaceContentNode<InterfaceContentRoot>() {
             _visible = true;
+            _contentType = ContentType::ROOT;
         }
         virtual ~InterfaceContentRoot() = default;
 
