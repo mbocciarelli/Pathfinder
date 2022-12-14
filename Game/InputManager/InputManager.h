@@ -67,23 +67,20 @@ namespace InputManager {
             }
         }
 
-        void mousePressed(sf::Event event) {
-            // if pressed on sprite of visible nodes
-            InterfaceContentRoot *treeRoot = _tree->getRoot();
-            InterfaceContentRoot *current = _tree->getCurrentNode();
-            InterfaceContentRoot *clickedNode = treeRoot->getClickedNode(event);    /* FIXME:   Game/InputManager/InterfaceContentNode.h:142:17: error: no matching function for call to object of type 'InputManager::InterfaceContentNode<InputManager::InterfaceContentRoot>::TraverseCallbackType' (aka 'function<void (InputManager::InterfaceContentRoot *)>')
-                                                                                                fn(this);*/
-
-
-
-            switch (clickedNode->_contentType) {
-                case ContentType::BUTTON:
-                    current->getCallback()(event);
-                    break;
-                default:
-                    break;
-            }
-        }
+        // void mousePressed(sf::Event event) {
+        //     // if pressed on sprite of visible nodes
+        //     InterfaceContentRoot *treeRoot = _tree->getRoot();
+        //     InterfaceContentRoot *current = _tree->getCurrentNode();
+        //     InterfaceContentRoot *clickedNode = treeRoot->getClickedNode(event);    /* FIXME:   Game/InputManager/InterfaceContentNode.h:142:17: error: no matching function for call to object of type 'InputManager::InterfaceContentNode<InputManager::InterfaceContentRoot>::TraverseCallbackType' (aka 'function<void (InputManager::InterfaceContentRoot *)>')
+        //                                                                                         fn(this);*/
+        //     switch (clickedNode->_contentType) {
+        //         case ContentType::BUTTON:
+        //             current->getCallback()(event);
+        //             break;
+        //         default:
+        //             break;
+        //     }
+        // }
 
 
 
