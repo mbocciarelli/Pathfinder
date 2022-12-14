@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
-
+#include "Astar/astarsearch.h"
 #include "Entity/Tile.hpp"
 
 class Scene
@@ -14,6 +14,7 @@ public :
 	void render();
 
 private :
+	AstarExe* astar;
 	sf::RenderWindow window;
 	std::vector<Tile*> mTiles;
 

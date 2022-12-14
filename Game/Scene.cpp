@@ -2,13 +2,17 @@
 
 #include "Entity/SquareTile.hpp"
 
+#include "Astar/Grid.h"
+#include "Astar/Node.h"
+
+
 bool Scene::init()
 {
     window.create(sf::VideoMode(1920, 1080), "SFML works!");
     sf::Texture model;
-    if (!model.loadFromFile("D:/Cours Ynov/ProjetM2/Pathfinder/Game/Sprite/BlueSquareMedium.png"))
+    if (!model.loadFromFile("../../../../Game/Sprite/BlueSquareMedium.png"))
         return false;
-
+   
     TilePosition currentPosition {0, 0};
 
     int sizeTileX = model.getSize().x + margeTile.x;
@@ -18,6 +22,11 @@ bool Scene::init()
 
     int tileHeight = mapSizeX / sizeTileX;
     int tileWidth = mapSizeY / sizeTileY;
+
+    //Grille Pathfinder
+    Grid* grid = new Grid(tileWidth, tileHeight,sizeTileX,sizeTileY);
+    astar =new AstarExe(grid);
+
     for (int i = 0; i < tileWidth; i++)
     {
         for (int j = 0; j < tileHeight; j++)
@@ -33,12 +42,19 @@ bool Scene::init()
             if (currentPosition.x == 20 && currentPosition.y == 5) {
                 tile->SetTileType<TileType::End>();
             }
+            grid->SetNodeInGrid((int)tile->GetTileType(), currentPosition.x, currentPosition.y);
+
             currentPosition.x++;
         }
         currentPosition.x = 0;
         currentPosition.y++;
     }
 
+    astar->Start();
+   
+    //  grid.SetGrid();
+
+    
     return true;
 }
 
@@ -65,8 +81,8 @@ void Scene::update()
     {
         tile->update(margeMap.x, margeMap.y, margeTile.x, margeTile.y);
     }
-
-   /* if (start and end)
+    astar->Update();
+    /*if (start && end)
         pathfinding.update();*/
 }
 
@@ -76,7 +92,6 @@ void Scene::render()
     {
         SpriteRenderer().render(tile->GetSprite(), &window);
     }
-
     /*if (start and end)
         pathfinding.render(&windows);*/
 }

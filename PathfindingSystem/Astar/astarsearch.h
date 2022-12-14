@@ -40,10 +40,10 @@ private:
 	void CheckNode(int i, int j, int _cost, Node* _parent)
 	{
 		//out of bounds
-		if (_i < 0 || _i > m_grid->GetWidth() - 1 || _j < 0 || _j > m_grid->GetHeight() - 1)
+		if (i < 0 || i > m_grid->GetWidth() - 1 || j < 0 || j > m_grid->GetHeight() - 1)
 			return;
 		//Get Node at the position in the grid
-		Node* node = &(*m_grid->GetNodeAt(_i, _j));
+		Node* node = &(*m_grid->GetNodeAt(i, j));
 		//don't process walls
 		if (m_grid->IsAnObstacle(node->type))
 			return;
@@ -58,7 +58,7 @@ private:
 		if (!inOpen && !inClosed) {
 			node->parent = _parent;
 			ComputeHeuristic(node);
-			printf("[OPEN] Node (%d,%d) added (h:%d)\n", _i, _j, node->heuristic);
+			printf("[OPEN] Node (%d,%d) added (h:%d)\n", i, j, node->heuristic);
 			m_open.push_back(node);
 		}
 	};
@@ -79,7 +79,7 @@ private:
 		Node* tempNode;
 		//find best heuristic index
 		for (int i = 0; i < m_open.size(); i++) {
-			tempNode = m_open.at(i);
+			tempNode = m_open.at(i));
 			/*if ((tempNode->heuristic < bestHeuristic)
 				 || (tempNode->heuristic == bestHeuristic && tempNode->cost < bestCost) ) {
 				bestIndex = i;

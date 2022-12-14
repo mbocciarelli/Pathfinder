@@ -24,22 +24,22 @@ public:
 
 template<> struct Initialisator<TileType::Start> {
 public:
-	virtual std::string instanciate() { return "D:/Cours Ynov/ProjetM2/Pathfinder/Game/Sprite/GreenSquareMedium.png"; };
+	virtual std::string instanciate() { return "../../../../Game/Sprite/GreenSquareMedium.png"; };
 };
 
 template<> class Initialisator<TileType::End> {
 public:
-	virtual std::string instanciate() { return "D:/Cours Ynov/ProjetM2/Pathfinder/Game/Sprite/RedSquareMedium.png"; };
+	virtual std::string instanciate() { return "../../../../Game/Sprite/RedSquareMedium.png"; };
 };
 
 template<> class Initialisator<TileType::Ground> {
 public:
-	virtual std::string instanciate() { return "D:/Cours Ynov/ProjetM2/Pathfinder/Game/Sprite/BlueSquareMedium.png"; };
+	virtual std::string instanciate() { return "../../../../Game/Sprite/BlueSquareMedium.png"; };
 };
 
 template<> class Initialisator<TileType::Wall> {
 public:
-	virtual std::string instanciate() { return "D:/Cours Ynov/ProjetM2/Pathfinder/Game/Sprite/BlueSquareMedium.png"; };
+	virtual std::string instanciate() { return "../../../../Game/Sprite/BlueSquareMedium.png"; };
 };
 
 
@@ -72,6 +72,13 @@ public:
 		auto path = Initialisator<type>().instanciate();
 		mSprite->CreateSprite(path);
 	}
+
+	TileType GetTileType()
+	{
+		return mType;
+	}
+
+	
 
 	sf::Sprite* GetSprite() {
 		return mSprite->GetSprite();
