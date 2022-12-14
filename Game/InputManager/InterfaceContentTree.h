@@ -9,44 +9,46 @@
 namespace InputManager {
     class InterfaceContentTree {
     protected:
-        InterfaceContentNode *_root;
-        InterfaceContentNode *_currentNode;
+        InterfaceContentRoot *_root;
+        InterfaceContentRoot *_currentNode;
 
     public:
-        //bool _isVisibled;
+        //bool _visibled;
 
 
-        InterfaceContentTree() {}
+        InterfaceContentTree() {
+            InterfaceContentRoot *root = new InterfaceContentRoot();
+            _root = root;
+            _currentNode = root;
+        }
         ~InterfaceContentTree() {}
 
-        InterfaceContentTree(InterfaceContentNode *root): _root(root) {
+        InterfaceContentTree(InterfaceContentRoot *root): _root(root) {
             _currentNode = root;
-            //_isVisibled = true;
+            //_visibled = true;
         }
 
-        void addNode(InterfaceContentNode *node) {
+        void addNode(InterfaceContentRoot *node) {
             _currentNode->add(node);
         }
 
-        void removeNode(InterfaceContentNode *node) {
+        void removeNode(InterfaceContentRoot *node) {
             delete node;
         }
 
-        void setCurrentNode(InterfaceContentNode *node) {
+        void setCurrentNode(InterfaceContentRoot *node) {
             _currentNode = node;
         }
 
-        InterfaceContentNode *getCurrentNode() {
+        InterfaceContentRoot *getCurrentNode() {
             return _currentNode;
         }
 
-
-        void traverse(InterfaceContentNode::TraverseCallbackType fn) {
-            _root->traverse(fn);
-        }
-
-        void DrawEachChild(sf::RenderWindow &window) {
-            _root->DrawEachChild(window);
+        InterfaceContentRoot *getRoot() {
+            return _root;
         }
     };
+
+
+
 }

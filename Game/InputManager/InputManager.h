@@ -11,18 +11,20 @@ namespace InputManager {
     class InputManager {
     protected:
         InterfaceContentTree *_tree;
-        using ContentNodeVector = std::vector<InterfaceContentNode *>;
+
     public:
 
-        InputManager() {}
+        InputManager() {
+            _tree = new InterfaceContentTree();
+        }
 
         ~InputManager() {}
 
-        void SetCurrentSelectedNode(InterfaceContentNode node) {
+        void SetCurrentSelectedNode(InterfaceContentRoot node) {
             _tree->setCurrentNode(&node);
         }
 
-        InterfaceContentNode GetCurrentSelectedNode() {
+        InterfaceContentRoot GetCurrentSelectedNode() {
             return *_tree->getCurrentNode();
         }
 
@@ -34,11 +36,11 @@ namespace InputManager {
             return _tree;
         }
 
-        void AddNode(InterfaceContentNode *node) {
+        void AddNode(InterfaceContentRoot *node) {
             _tree->addNode(node);
         }
 
-        void RemoveNode(InterfaceContentNode *node) {
+        void RemoveNode(InterfaceContentRoot *node) {
             _tree->removeNode(node);
         }
 
@@ -48,6 +50,37 @@ namespace InputManager {
         }
 
         // Draw
-        void Draw(sf::RenderWindow &window);
+        void Draw(sf::RenderWindow &window){
+            InterfaceContentRoot *root = _tree->getRoot();
+            // TODO here compile error
+            root->DrawEachChild(window);
+        }
+
+        void keyPressed(sf::Event event) {
+            InterfaceContentRoot *current = _tree->getCurrentNode();
+            switch (current->_contentType) {
+                case ContentType::TEXTFIELD:
+                    current->getCallback()(event);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        void mousePressed(sf::Event event) {
+            // if pressed on sprite of visible nodes
+            _tree->getRoot()->traverseVisible(event);
+
+            switch (current->_contentType) {
+                case ContentType::BUTTON:
+                    current->getCallback()(event);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+
+
     };
 }

@@ -6,7 +6,7 @@
 
 namespace InputManager{
 
-    class Button : public InterfaceContentNode {
+    class Button : public InterfaceContentRoot {
     protected:
 
     public:
@@ -14,12 +14,13 @@ namespace InputManager{
             _contentType = ContentType::BUTTON;
         }
 
-        Button(sf::Sprite *sprite, std::function<void()> callback) {
+        Button(sf::Sprite *sprite, std::function<void(sf::Event)> callback) {
             _contentType = ContentType::BUTTON;
-            _sprite = sprite;
+            this->_sprite = sprite;
             //_position = position;
             _callback = callback;
+            this->setVisible(true);
         }
-        ~Button() {}
+        ~Button() = default;
     };
 }

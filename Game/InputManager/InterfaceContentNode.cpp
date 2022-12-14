@@ -4,77 +4,84 @@
 
 
 namespace InputManager {
-    const std::string &InterfaceContentNode::getName() const {
+
+    template<typename Derived>
+    const std::string &InterfaceContentNode<Derived>::getName() const {
         return _name;
     }
 
-    void InterfaceContentNode::setName(const std::string &name) {
+    template<typename Derived>
+    void InterfaceContentNode<Derived>::setName(const std::string &name) {
         _name = name;
     }
 
-    sf::Sprite *InterfaceContentNode::getSprite() const {
+    template<typename Derived>
+    sf::Sprite *InterfaceContentNode<Derived>::getSprite() const {
         return _sprite;
     }
 
-    void InterfaceContentNode::setSprite(sf::Sprite *sprite) {
+    template<typename Derived>
+    void InterfaceContentNode<Derived>::setSprite(sf::Sprite *sprite) {
         _sprite = sprite;
     }
 
-    bool InterfaceContentNode::isIsLeaf() const {
-        return _isLeaf;
-    }
-
-    void InterfaceContentNode::setIsLeaf(bool isLeaf) {
-        _isLeaf = isLeaf;
-    }
-
-    ContentType InterfaceContentNode::getContentType() const {
+    template<typename Derived>
+    ContentType InterfaceContentNode<Derived>::getContentType() const {
         return _contentType;
     }
 
-    void InterfaceContentNode::setContentType(ContentType contentType) {
+    template<typename Derived>
+    void InterfaceContentNode<Derived>::setContentType(ContentType contentType) {
         _contentType = contentType;
     }
 
-    bool InterfaceContentNode::isIsVisibled() const {
-        return _isVisibled;
+    template<typename Derived>
+    bool InterfaceContentNode<Derived>::isVisible() const {
+        return _visible;
     }
 
-    void InterfaceContentNode::setIsVisibled(bool isVisibled) {
-        _isVisibled = isVisibled;
+    template<typename Derived>
+    void InterfaceContentNode<Derived>::setVisible(bool visibled) {
+        _visible = visibled;
     }
 
-    bool InterfaceContentNode::isIsClickable() const {
-        return _isClickable;
+    template<typename Derived>
+    bool InterfaceContentNode<Derived>::isClickable() const {
+        return _clickable;
     }
 
-    void InterfaceContentNode::setIsClickable(bool isClickable) {
-        _isClickable = isClickable;
+    template<typename Derived>
+    void InterfaceContentNode<Derived>::setClickable(bool isClickable) {
+        _clickable = isClickable;
     }
 
-    std::function<void()> InterfaceContentNode::getCallback() const {
+    template<typename Derived>
+    std::function<void(sf::Event)> InterfaceContentNode<Derived>::getCallback() const {
         return _callback;
     }
 
-    void InterfaceContentNode::setCallback(std::function<void()> callback) {
+    template<typename Derived>
+    void InterfaceContentNode<Derived>::setCallback(std::function<void(sf::Event)> callback) {
         _callback = callback;
     }
 
-    void InterfaceContentNode::Draw(sf::RenderWindow &window) {
-        if(_isVisibled) {
+    template<typename Derived>
+    void InterfaceContentNode<Derived>::Draw(sf::RenderWindow &window) {
+        if(_visible) {
             window.draw(*_sprite);
         }
-
     }
 
 
 
-    void InterfaceContentNode::DrawEachChild(sf::RenderWindow &window) {
-        std::function<void(InterfaceContentNode *)> lambda;
-        lambda = [&window](InterfaceContentNode *node) {
-            node->Draw(window);
-        };
-        this->traverse(lambda);
+    template<typename Derived>
+    void InterfaceContentNode<Derived>::DrawEachChild(sf::RenderWindow &window) {
+        // !visibled don't draw node and his children
+        this->traverseVisible([&window](InterfaceContentNode<Derived> *node) {
+            if(node->isVisibled()) {
+                node->Draw(window);
+            }
+        });
     }
 
 

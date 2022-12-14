@@ -6,7 +6,7 @@ bool Scene::init()
 {
     window.create(sf::VideoMode(1920, 1080), "SFML works!");
     sf::Texture model;
-    if (!model.loadFromFile("D:/Cours Ynov/ProjetM2/Pathfinder/Game/Sprite/BlueSquareMedium.png"))
+    if (!model.loadFromFile("Sprite/BlueSquareMedium.png"))
         return false;
 
     TilePosition currentPosition {0, 0};
@@ -24,7 +24,7 @@ bool Scene::init()
         {
             auto tile = new SquareTile();
             mTiles.push_back(tile);
-            tile->create("D:/Cours Ynov/ProjetM2/Pathfinder/Game/Sprite/BlueSquareMedium.png");
+            tile->create("Sprites/BlueSquareMedium.png");
             tile->SetTilePosition(currentPosition);
 
             currentPosition.x++;

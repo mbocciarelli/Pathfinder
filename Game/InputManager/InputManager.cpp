@@ -4,6 +4,3 @@
 
 #include "InputManager.h"
 
-void InputManager::InputManager::Draw(sf::RenderWindow &window) {
-    _tree->DrawEachChild(window);
-}

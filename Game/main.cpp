@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "Scene.hpp"
+#include "InputManager/InputManager.h"
 
 
 int main()
@@ -43,10 +44,35 @@ int main()
         window.display();
     }*/
 
+    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML works!");
+    InputManager::InputManager inputManager;
+    // new textfield
+    auto *textField = new InputManager::TextField();
+    inputManager.AddNode(textField);
+    while (window.isOpen())
+    {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+
+        window.clear();
+        //inputManager.Draw(window);
+        try {
+            inputManager.Draw(window);
+        } catch (std::exception &e) {
+            std::cout << e.what() << std::endl;
+        }
+        window.display();
+    }
+/*
     Scene scene;
     
     if(scene.init())
         scene.start();
+*/
 
     return 0;
 }
