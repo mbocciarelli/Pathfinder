@@ -9,9 +9,9 @@ set(GAME_HEADERS
            State/EndState.h 
            State/StartState.h 
            State/DefaultState.h 
-           State/GroundState.h 
+           State/PortalState.h
            State/WallState.h 
-           State/RunState.h
+           Input/InputManager.h
          )
 
 set(GAME_SOURCES
@@ -21,10 +21,10 @@ set(GAME_SOURCES
         State/StartState.cpp
         State/EndState.cpp
         State/WallState.cpp
-        State/GroundState.cpp
-        State/RunState.cpp
-
-         "Entity/Tile.cpp")
+        State/PortalState.cpp
+        Entity/Tile.cpp
+        Input/InputManager.cpp
+)
 
 find_package(SFML COMPONENTS system window graphics CONFIG REQUIRED)
 add_executable(Game ${GAME_HEADERS} ${GAME_SOURCES})

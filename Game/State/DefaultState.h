@@ -1,17 +1,16 @@
 #pragma once
 
+#include <SFML/Window/Keyboard.hpp>
 #include "State/IState.h"
-#include "../Scene.hpp"
 
 class DefaultState : public IState {
-private:
-    TileType* m_tileType;
 public:
-    DefaultState() {
-        m_tileType = nullptr;
+    DefaultState()
+    {
+        m_tileType = TileType::Ground;
     }
     ~DefaultState() override = default;
 
-    IState* handleInput(const Input& input) const override;
+    IState* handleInput(IState* currentState, const sf::Keyboard::Key& input) const override;
 
 };

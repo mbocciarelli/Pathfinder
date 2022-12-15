@@ -19,7 +19,7 @@ public:
         , line(0)
         , type(0)
         , heuristic(-1)
-        , cost(1)
+        , cost(5)
     {};
 
     Node(int _column, int _line, int _type):column(_column),line(_line),type(_type){};

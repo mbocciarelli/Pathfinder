@@ -1,15 +1,14 @@
 
+#include <SFML/Window/Keyboard.hpp>
 #include "IState.h"
-#include "../Scene.hpp"
 
 class EndState : public IState {
-private:
-    TileType* m_tileType;
 public:
-    EndState() {
-        m_tileType = new TileType(TileType::End);
+    EndState()
+    {
+        m_tileType = TileType::End;
     }
     ~EndState() override = default;
 
-    IState* handleInput(const Input& input) const override;
+    IState* handleInput(IState* currentState, const sf::Keyboard::Key& input) const override;
 };

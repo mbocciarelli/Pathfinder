@@ -62,13 +62,13 @@ public :
 	void render();
 
 private :
+    InputManager* inputManager;
     Grid* grid;
 	AstarExe* astar;
 	sf::RenderWindow window;
 	std::vector<Tile*> mTiles;
     std::vector<Button*> mButtons;
     sf::Event currentEvent;
-    InputManager* inputManager;
 
     Tile* portal1 = nullptr;
     Tile* portal2 = nullptr;

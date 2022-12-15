@@ -1,21 +1,23 @@
 #pragma once
+#include <SFML/Window/Keyboard.hpp>
 #include "../State/IState.h"
-#include "Scene.hpp"
+#include "../State/DefaultState.h"
 
 class InputManager {
 private:
     IState* m_state;
+
 public:
 
-    InputManager() = default;
+    InputManager()
+    {
+        m_state = new DefaultState();
+    }
     ~InputManager() = default;
 
-    void handleInput(const Input& input, sf::Vector2f& position);
+    void handleInput(const sf::Keyboard::Key input);
 
     IState* getCurrentState() const;
-    void setCurrentState(IState* state);
-
-    void updateTile(Tile& tile);
 
 };
 

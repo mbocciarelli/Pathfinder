@@ -39,7 +39,7 @@ public :
 		textureEnd = Generator::Generate("../../../../Game/Sprite/EndSquare.png");
 		textureGround = Generator::Generate("../../../../Game/Sprite/GroundSquare.png");
 		textureWall = Generator::Generate("../../../../Game/Sprite/WallSquare.png");
-		texturePortal = Generator::Generate("../../../../Game/Sprite/GroundSquare.png");
+		texturePortal = Generator::Generate("../../../../Game/Sprite/PortailSprite.png");
 	}
 
 	sf::Texture* instanciate(TileType type) {

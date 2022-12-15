@@ -1,27 +1,20 @@
 #pragma once
 
+#include <SFML/Window/Keyboard.hpp>
 #include "../Entity/Tile.hpp"
 
-enum class Input {
-    Start = 0,
-    End,
-    Ground,
-    Wall,
-    Run,
-    TileMap
-};
-
 class IState {
-private :
-    TileType* m_tileType;
+protected :
+    TileType m_tileType;
 public:
-    IState() {
-        m_tileType = nullptr;
+    IState()
+    {
+        m_tileType = TileType::Ground;
     }
     virtual ~IState() = default;
-    virtual IState* handleInput(const Input& input) const = 0;
+    virtual IState* handleInput(IState* currentState, const sf::Keyboard::Key& input) const = 0;
 
-    TileType* getTileType() const{
+    TileType getType() const{
         return m_tileType;
     }
 };

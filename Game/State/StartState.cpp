@@ -1,27 +1,23 @@
 #include "StartState.h"
 #include "DefaultState.h"
 #include "EndState.h"
-#include "RunState.h"
 #include "WallState.h"
-#include "GroundState.h"
+#include "PortalState.h"
 
 
-IState *StartState::handleInput(const Input& input) const {
-
-switch (input) {
-        case Input::Start:
-            return new DefaultState();
-        case Input::End:
+IState *StartState::handleInput(IState* currentState, const sf::Keyboard::Key& input) const {
+    switch (input) {
+        case sf::Keyboard::S:
+            return currentState;
+        case sf::Keyboard::E:
             return new EndState();
-        case Input::Ground:
-            return new GroundState();
-        case Input::Wall:
+        case sf::Keyboard::P:
+            return new PortalState();
+        case sf::Keyboard::W:
             return new WallState();
-        case Input::Run:
-            return new RunState();
-    case Input::TileMap:
-
+        case sf::Keyboard::G:
+            return new DefaultState();
         default:
-            return nullptr;
+            return currentState;
     }
 }

@@ -5,25 +5,13 @@
 #include "InputManager.h"
 #include "SFML/Window/Keyboard.hpp"
 
-void InputManager::handleInput(const Input &input, sf::Vector2f& position) {
-    if (const auto currentState = m_state->handleInput(input); currentState != nullptr && m_state != currentState)
+void InputManager::handleInput(const sf::Keyboard::Key input) {
+    if (const auto currentState = m_state->handleInput(getCurrentState(), input); currentState != nullptr && m_state != currentState)
     {
-        setCurrentState(currentState);
+        m_state = currentState;
     }
 }
 
-
-
 IState *InputManager::getCurrentState() const {
     return m_state;
-}
-
-void InputManager::setCurrentState(IState *state) {
-    delete m_state;
-    m_state = state;
-}
-
-void InputManager::updateTile(Tile &tile) {
-    TileType* type = m_state->getTileType();
-    tile.SetTileType<type>();
 }

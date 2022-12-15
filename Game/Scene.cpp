@@ -44,6 +44,8 @@ bool Scene::init()
         currentPosition.y++;
     }
 
+    inputManager = new InputManager();
+
     return true;
 }
 
@@ -56,8 +58,39 @@ void Scene::leftClickAction(sf::Vector2i mousePosition)
             Tile* tile = getTile(mousePosition);
             if (tile != nullptr)
             {
-                //tile->SetTileType<TileType::Wall>();
-                //inputManager->updateTile(*tile);
+                TileType type = inputManager->getCurrentState()->getType();
+                switch (type)
+                {
+                case TileType::Start:
+                    tile->SetTileType<TileType::Start>();
+                    break;
+                case TileType::End:
+                    tile->SetTileType<TileType::End>();
+                    break;
+                case TileType::Wall:
+                    tile->SetTileType<TileType::Wall>();
+                    break;
+                case TileType::Portal:
+                    tile->SetTileType<TileType::Portal>();
+                    break;
+                default:
+                    tile->SetTileType<TileType::Ground>();
+                    break;
+                }
+                
+                if (type == TileType::Portal)
+                {
+                    if (portal1 == nullptr)
+                        portal1 = tile;
+                    else if (portal2 == nullptr)
+                        portal2 = tile;
+
+                    if (portal1 != nullptr && portal2 != nullptr)
+                        grid->SetPortalInGrid((int)TileType::Portal, portal1->GetTilePosition().x, portal1->GetTilePosition().y, portal2->GetTilePosition().x, portal2->GetTilePosition().y);
+                }
+                else {
+                    grid->SetNodeInGrid((int)type, tile->GetTilePosition().x, tile->GetTilePosition().y);
+                }
             }
         }
     }
@@ -78,42 +111,11 @@ void Scene::start() {
             }
             if (event.type == sf::Event::MouseButtonPressed || event.type == sf::Event::KeyPressed)
             {
+                inputManager->handleInput(event.key.code);
+
                 if (event.mouseButton.button == sf::Mouse::Left)
                 {
-                    //leftClickAction(sf::Mouse::getPosition(window));
-                    Tile* tile = getTile(sf::Mouse::getPosition(window));
-                    if (tile != nullptr)
-                    {
-                        tile->SetTileType<TileType::Portal>();
-
-                        if (portal1 == nullptr)
-                            portal1 = tile;
-                        else if (portal2 == nullptr)
-                            portal2 = tile;
-
-                        if(portal1 != nullptr && portal2 != nullptr)
-                            grid->SetPortalInGrid((int)TileType::Portal, portal1->GetTilePosition().x, portal1->GetTilePosition().y, portal2->GetTilePosition().x, portal2->GetTilePosition().y);
-                    }
-                    break;
-                }
-                if (sf::Mouse::isButtonPressed(sf::Mouse::Right) && sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
-                {
-                    Tile* tile = getTile(sf::Mouse::getPosition(window));
-                    if (tile != nullptr)
-                    {
-                        tile->SetTileType<TileType::Start>();
-                        grid->SetNodeInGrid((int)tile->GetTileType(), tile->GetTilePosition().x, tile->GetTilePosition().y);
-                    }
-                    break;
-                }
-                if (sf::Mouse::isButtonPressed(sf::Mouse::Right) && sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
-                {
-                    Tile* tile = getTile(sf::Mouse::getPosition(window));
-                    if (tile != nullptr)
-                    {
-                        tile->SetTileType<TileType::End>();
-                        grid->SetNodeInGrid((int)tile->GetTileType(), tile->GetTilePosition().x, tile->GetTilePosition().y);
-                    }
+                    leftClickAction(sf::Mouse::getPosition(window));
                     break;
                 }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))

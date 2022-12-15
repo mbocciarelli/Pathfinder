@@ -1,15 +1,14 @@
 #include "IState.h"
-#include "../Scene.hpp"
+#include <SFML/Window/Keyboard.hpp>
 
 class WallState : public IState {
-private:
-    TileType* m_tileType;
 public:
-    WallState() {
-        m_tileType = new TileType(TileType::Wall);
+    WallState()
+    {
+        m_tileType = TileType::Wall;
     }
     ~WallState() override = default;
 
-    IState* handleInput(const Input& input) const override;
+    IState* handleInput(IState* currentState, const sf::Keyboard::Key& input) const override;
 
 };
