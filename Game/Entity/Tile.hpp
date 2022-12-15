@@ -11,43 +11,76 @@ enum TileType {
 	Portal
 };
 
-struct InitialisatorBase {
+struct Generator {
+	static sf::Texture* Generate(std::string path) {
+		sf::Texture* texture = new sf::Texture();
+		bool result = texture->loadFromFile(path);
+		if (!result)
+		{
+			throw std::runtime_error("Fail to load texture");
+			return nullptr;
+		}
+		return texture;
+	}
+};
+
+class Initialisator {
+private :
+	sf::Texture* textureStart;
+	sf::Texture* textureEnd;
+	sf::Texture* textureGround;
+	sf::Texture* textureWall;
+	sf::Texture* texturePortal;
+
 public :
-	virtual std::string instanciate() = 0;
-	virtual ~InitialisatorBase() {}
+	Initialisator()
+	{
+		textureStart = Generator::Generate("../../../../Game/Sprite/StartSquare.png");
+		textureEnd = Generator::Generate("../../../../Game/Sprite/EndSquare.png");
+		textureGround = Generator::Generate("../../../../Game/Sprite/GroundSquare.png");
+		textureWall = Generator::Generate("../../../../Game/Sprite/WallSquare.png");
+		texturePortal = Generator::Generate("../../../../Game/Sprite/GroundSquare.png");
+	}
+
+	sf::Texture* instanciate(TileType type) {
+		switch (type)
+		{
+		case Start:
+			return textureStart;
+		case End:
+			return textureEnd;
+		case Ground:
+			return textureGround;
+		case Wall:
+			return textureWall;
+		case Portal:
+			return texturePortal;
+		default:
+			break;
+		}
+	}
 };
 
-template<TileType T>
-struct Initialisator : public InitialisatorBase {
+class Instanciator {
+private:
+	static Instanciator* instance;
+	Initialisator textureInit;
+
+	Instanciator() :
+		textureInit()
+	{}
+
+	static Instanciator* GetInstance() {
+		if (!instance)
+			instance = new Instanciator();
+		return instance;
+	}
+
 public:
-	virtual std::string instanciate() override { return ""; };
+	static sf::Texture* GetTexture(TileType type) {
+		return GetInstance()->textureInit.instanciate(type);
+	}
 };
-
-template<> struct Initialisator<TileType::Start> {
-public:
-	virtual std::string instanciate() { return "../../../../Game/Sprite/GreenSquare.png"; };
-};
-
-template<> class Initialisator<TileType::End> {
-public:
-	virtual std::string instanciate() { return "../../../../Game/Sprite/RedSquare.png"; };
-};
-
-template<> class Initialisator<TileType::Ground> {
-public:
-	virtual std::string instanciate() { return "../../../../Game/Sprite/BlueSquare.png"; };
-};
-
-template<> class Initialisator<TileType::Wall> {
-public:
-	virtual std::string instanciate() { return "../../../../Game/Sprite/GraySquare.png"; };
-};
-
-template<> class Initialisator<TileType::Portal> {
-public:
-	virtual std::string instanciate() { return "../../../../Game/Sprite/RedSquare.png"; };
-};
-
 
 struct TilePosition
 {
@@ -75,8 +108,8 @@ public:
 	void SetTileType() 
 	{
 		mType = type;
-		auto path = Initialisator<type>().instanciate();
-		mSprite->CreateSprite(path);
+		auto texture = Instanciator::GetTexture(type);
+		mSprite->CreateSprite(texture);
 	}
 
 	TileType GetTileType() const
@@ -92,10 +125,6 @@ public:
 	sf::Sprite* GetSprite() {
 		return mSprite->GetSprite();
 	}
-
-    void SetSprite(std::string pathTexture){
-        mSprite->CreateSprite(pathTexture);
-    }
 
     bool IsMouseOnTile(sf::Vector2i mousePosition){
         sf::Vector2f position = mSprite->GetSprite()->getPosition();

@@ -14,10 +14,9 @@ public:
 	{
 	}
 
-	void CreateSprite(std::string path)
+	void CreateSprite(sf::Texture* texture)
 	{
-		mPathTexture = path;
-		LoadSprite();
+		LoadSprite(texture);
 	}
 
 	void SetPosition(int x, int y) {
@@ -29,20 +28,12 @@ public:
 	}
 
 private:
-	void LoadSprite()
+	void LoadSprite(sf::Texture* texture)
 	{
-		if (!mTexture.loadFromFile(mPathTexture))
-		{
-			throw std::runtime_error("Fail to load texture");
-			return;
-		}
-
-		mSprite = new sf::Sprite(mTexture);
+		mSprite = new sf::Sprite(*texture);
 	}
 
 private:
-	std::string mPathTexture;
 	sf::Sprite* mSprite;
-	sf::Texture mTexture;
 
 };

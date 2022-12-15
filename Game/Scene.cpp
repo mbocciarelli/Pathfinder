@@ -10,7 +10,7 @@ bool Scene::init()
 {
     window.create(sf::VideoMode(1920, 1080), "SFML works!");
     sf::Texture model;
-    if (!model.loadFromFile("../../../../Game/Sprite/BlueSquare.png"))
+    if (!model.loadFromFile("../../../../Game/Sprite/GroundSquare.png"))
         return false;
    
     TilePosition currentPosition {0, 0};
