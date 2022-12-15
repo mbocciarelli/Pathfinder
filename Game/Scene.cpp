@@ -64,6 +64,16 @@ bool Scene::init()
     return true;
 }
 
+void Scene::leftClickAction(sf::Vector2i mousePosition)
+{
+    Tile* tile = getTile(mousePosition);
+    if (tile != nullptr)
+    {
+        tile->SetSprite("/Users/danielchiquet/Documents/tp/Pathfinder/Game/Sprite/RedSquareMedium.png");
+    }
+}
+
+
 void Scene::start() {
     
     while (window.isOpen()) {
