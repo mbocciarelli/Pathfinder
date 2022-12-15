@@ -6,7 +6,7 @@
 #include "GroundState.h"
 
 
-IState *EndState::handleInput(Scene& Scene, const Input& input) const {
+IState *EndState::handleInput(Scene& scene, const Input& input) const {
     switch (input) {
         case Input::Start:
             return new StartState();

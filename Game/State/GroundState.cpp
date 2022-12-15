@@ -9,7 +9,7 @@
 #include "RunState.h"
 #include "WallState.h"
 
-IState *GroundState::handleInput(Scene &Scene, const Input &input) const {
+IState *GroundState::handleInput(Scene& Scene, const Input &input) const {
     switch (input) {
         case Input::Start:
             return new StartState();

@@ -6,7 +6,7 @@
 #include "StartState.h"
 
 
-IState* WallState::handleInput(Scene& Scene, const Input& input) const {
+IState* WallState::handleInput(Scene& scene, const Input& input) const {
     switch (input) {
         case Input::Start:
             return new StartState();

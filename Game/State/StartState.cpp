@@ -6,7 +6,7 @@
 #include "GroundState.h"
 
 
-IState *StartState::handleInput(Scene& Scene, const Input& input) const {
+IState *StartState::handleInput(Scene& scene, const Input& input) const {
 
 switch (input) {
         case Input::Start:
@@ -19,6 +19,8 @@ switch (input) {
             return new WallState();
         case Input::Run:
             return new RunState();
+    case Input::TileMap:
+
         default:
             return nullptr;
     }

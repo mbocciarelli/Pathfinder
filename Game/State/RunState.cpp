@@ -7,7 +7,7 @@
 
 
 
-IState* RunState::handleInput(Scene& Scene, const Input& input) const {
+IState* RunState::handleInput(Scene& scene, const Input& input) const {
     switch (input) {
         case Input::Start:
             return new StartState();
