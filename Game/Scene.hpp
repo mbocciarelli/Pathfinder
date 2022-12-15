@@ -67,6 +67,9 @@ private :
 	std::vector<Tile*> mTiles;
     std::vector<Button*> mButtons;
 
+    Tile* portal1 = nullptr;
+    Tile* portal2 = nullptr;
+
 	struct Marging {
 		int x;
 		int y;

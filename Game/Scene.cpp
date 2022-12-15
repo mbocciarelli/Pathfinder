@@ -76,9 +76,17 @@ void Scene::start() {
                     Tile* tile = getTile(sf::Mouse::getPosition(window));
                     if (tile != nullptr)
                     {
-                        tile->SetTileType<TileType::Wall>();
-                        grid->SetNodeInGrid((int)tile->GetTileType(), tile->GetTilePosition().x, tile->GetTilePosition().y);
+                        tile->SetTileType<TileType::Portal>();
+
+                        if (portal1 == nullptr)
+                            portal1 = tile;
+                        else if (portal2 == nullptr)
+                            portal2 = tile;
+
+                        if(portal1 != nullptr && portal2 != nullptr)
+                            grid->SetPortalInGrid((int)TileType::Portal, portal1->GetTilePosition().x, portal1->GetTilePosition().y, portal2->GetTilePosition().x, portal2->GetTilePosition().y);
                     }
+                    break;
                 }
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Right) && sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
                 {
@@ -88,6 +96,7 @@ void Scene::start() {
                         tile->SetTileType<TileType::Start>();
                         grid->SetNodeInGrid((int)tile->GetTileType(), tile->GetTilePosition().x, tile->GetTilePosition().y);
                     }
+                    break;
                 }
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Right) && sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
                 {
@@ -97,6 +106,7 @@ void Scene::start() {
                         tile->SetTileType<TileType::End>();
                         grid->SetNodeInGrid((int)tile->GetTileType(), tile->GetTilePosition().x, tile->GetTilePosition().y);
                     }
+                    break;
                 }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
                 {
@@ -105,6 +115,7 @@ void Scene::start() {
                         grid->InitGrid();
                         astar->Start();
                     }
+                    break;
                 }
             }
         }

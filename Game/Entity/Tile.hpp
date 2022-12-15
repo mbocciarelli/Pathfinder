@@ -7,7 +7,8 @@ enum TileType {
 	Start = 0, 
 	End, 
 	Ground,
-	Wall
+	Wall,
+	Portal
 };
 
 struct InitialisatorBase {
@@ -40,6 +41,11 @@ public:
 template<> class Initialisator<TileType::Wall> {
 public:
 	virtual std::string instanciate() { return "../../../../Game/Sprite/GraySquare.png"; };
+};
+
+template<> class Initialisator<TileType::Portal> {
+public:
+	virtual std::string instanciate() { return "../../../../Game/Sprite/RedSquare.png"; };
 };
 
 
