@@ -61,6 +61,7 @@ public :
 	void render();
 
 private :
+    Grid* grid;
 	AstarExe* astar;
 	sf::RenderWindow window;
 	std::vector<Tile*> mTiles;
@@ -84,6 +85,6 @@ private :
     void leftClickAction(sf::Vector2i mousePosition);
 
 	Marging margeMap { 30, 30 };
-	Marging margeTile { 10, 10 };
+	Marging margeTile { 2, 2 };
 	int SizeTileBar = 150;
 };

@@ -65,6 +65,10 @@ public:
 
 	};
 
+	bool IsStart() {
+		return m_started;
+	}
+
 private :
 
 	inline int heuristic(Node* a, Node* b) {

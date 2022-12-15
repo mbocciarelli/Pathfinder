@@ -39,7 +39,7 @@ public:
 
 template<> class Initialisator<TileType::Wall> {
 public:
-	virtual std::string instanciate() { return "../../../../Game/Sprite/RedSquare.png"; };
+	virtual std::string instanciate() { return "../../../../Game/Sprite/GraySquare.png"; };
 };
 
 
@@ -73,12 +73,15 @@ public:
 		mSprite->CreateSprite(path);
 	}
 
-	TileType GetTileType()
+	TileType GetTileType() const
 	{
 		return mType;
 	}
 
-	
+	TilePosition GetTilePosition() const
+	{
+		return mPosition;
+	}
 
 	sf::Sprite* GetSprite() {
 		return mSprite->GetSprite();

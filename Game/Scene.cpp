@@ -24,7 +24,7 @@ bool Scene::init()
     int tileWidth = mapSizeY / sizeTileY;
 
     //Grille Pathfinder
-    Grid* grid = new Grid(tileWidth, tileHeight, sizeTileX, sizeTileY);
+    grid = new Grid(tileWidth, tileHeight, sizeTileX, sizeTileY);
     grid->AddObstacle((int)TileType::Wall);
     astar =new AstarExe(grid);
 
@@ -36,19 +36,6 @@ bool Scene::init()
             mTiles.push_back(tile);
             tile->SetTileType<TileType::Ground>();
             tile->SetTilePosition(currentPosition);
-            //TO TEST PATHFINDING
-            if (currentPosition.x == 0 && currentPosition.y == 0) {
-                tile->SetTileType<TileType::Start>();
-            }
-
-            if (currentPosition.x == 15 && currentPosition.y == 15) {
-                tile->SetTileType<TileType::End>();
-            }
-
-            if (currentPosition.x > 10 && currentPosition.x < 12 && ((currentPosition.y >= 0 && currentPosition.y < 22) || (currentPosition.y > 24 && currentPosition.y < 30))) {
-                tile->SetTileType<TileType::Wall>();
-            }
-
             grid->SetNodeInGrid((int)tile->GetTileType(), currentPosition.x, currentPosition.y);
 
             currentPosition.x++;
@@ -57,10 +44,6 @@ bool Scene::init()
         currentPosition.y++;
     }
 
-    grid->InitGrid();
-    astar->Start();
-
-    
     return true;
 }
 
@@ -85,11 +68,43 @@ void Scene::start() {
             {
                 window.close();
             }
-            if (event.type == sf::Event::MouseButtonPressed)
+            if (event.type == sf::Event::MouseButtonPressed || event.type == sf::Event::KeyPressed)
             {
                 if (event.mouseButton.button == sf::Mouse::Left)
                 {
-                    leftClickAction(sf::Mouse::getPosition(window));
+                    //leftClickAction(sf::Mouse::getPosition(window));
+                    Tile* tile = getTile(sf::Mouse::getPosition(window));
+                    if (tile != nullptr)
+                    {
+                        tile->SetTileType<TileType::Wall>();
+                        grid->SetNodeInGrid((int)tile->GetTileType(), tile->GetTilePosition().x, tile->GetTilePosition().y);
+                    }
+                }
+                if (sf::Mouse::isButtonPressed(sf::Mouse::Right) && sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
+                {
+                    Tile* tile = getTile(sf::Mouse::getPosition(window));
+                    if (tile != nullptr)
+                    {
+                        tile->SetTileType<TileType::Start>();
+                        grid->SetNodeInGrid((int)tile->GetTileType(), tile->GetTilePosition().x, tile->GetTilePosition().y);
+                    }
+                }
+                if (sf::Mouse::isButtonPressed(sf::Mouse::Right) && sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+                {
+                    Tile* tile = getTile(sf::Mouse::getPosition(window));
+                    if (tile != nullptr)
+                    {
+                        tile->SetTileType<TileType::End>();
+                        grid->SetNodeInGrid((int)tile->GetTileType(), tile->GetTilePosition().x, tile->GetTilePosition().y);
+                    }
+                }
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+                {
+                    if (grid->StartAndEndSetup() && !astar->IsStart())
+                    {
+                        grid->InitGrid();
+                        astar->Start();
+                    }
                 }
             }
         }
@@ -107,10 +122,9 @@ void Scene::update()
     {
         tile->update(margeMap.x, margeMap.y, margeTile.x, margeTile.y);
     }
-   // astar->Update();
-    /*if (start && end)
-        pathfinding.update();*/
-    astar->Update();
+   
+    if(astar->IsStart())
+        astar->Update();
 }
 
 void Scene::render()
@@ -120,8 +134,7 @@ void Scene::render()
         SpriteRenderer().render(tile->GetSprite(), &window);
     }
     
-    /*if (start and end)
-        pathfinding.render(&windows);*/
-    astar->Draw(window, margeMap.x, margeMap.y);
+    if (astar->IsStart())
+        astar->Draw(window, margeMap.x, margeMap.y);
     
 }

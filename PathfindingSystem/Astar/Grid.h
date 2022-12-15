@@ -142,41 +142,12 @@ public:
 
 		for (auto G : GoodWay)
 		{
-			const Node& node = m_gridData[G->line * m_height + G->column];
+			const Node& node = m_gridData[G->column * m_height + G->line];
 			rect.setFillColor(sf::Color::Green);
-			rect.setPosition(sf::Vector2f(G->line * (m_cellWidth - 10) + margeX + G->line * 10 + ((m_cellWidth - 10) / 4), G->column * (m_cellHeight - 10) + margeY + G->column * 10 + ((m_cellHeight - 10) / 4)));
+			rect.setPosition(sf::Vector2f(G->line * m_cellWidth + margeX, G->column * m_cellHeight + margeY));
 			_window.draw(rect);
 			
 		}
-
-		//
-		/*for (int j = 0; j < m_width; j++) {
-			for (int i = 0; i < m_height ; i++) {
-				//get the type of the cell
-				const Node& node = m_gridData[j * m_height + i];
-				rect.setPosition(sf::Vector2f(i * (m_cellWidth - 10) + margeX + i * 10 + ((m_cellWidth - 10) / 4), j * (m_cellHeight - 10) + margeY + j * 10 + ((m_cellHeight - 10) / 4)));
-
-				//Colorize it
-				switch (node.type) {
-				case S_GROUND_TYPE: rect.setFillColor(sf::Color::White); break;
-				case S_WALL_TYPE: rect.setFillColor(sf::Color::Black); break;
-				//case S_GOAL_TYPE: rect.setFillColor(sf::Color::Red); break;
-				//case S_START_TYPE: rect.setFillColor(sf::Color::Blue); break;
-				}
-				if (node.visited == true && node.type != Grid::S_START_TYPE) {
-					rect.setFillColor(sf::Color::Magenta);
-					_window.draw(rect);
-				}
-				if (node.finalWayID >= 0) {
-					rect.setFillColor(sf::Color::Green);
-					_window.draw(rect);
-				}
-				//set position 
-				//rect.setPosition(sf::Vector2f(i * 64, j * 64));
-				//then finally draw
-			}
-		}
-		*/
 	}
 
 
