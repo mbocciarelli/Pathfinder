@@ -24,22 +24,22 @@ public:
 
 template<> struct Initialisator<TileType::Start> {
 public:
-	virtual std::string instanciate() { return "../../../../Game/Sprite/GreenSquareMedium.png"; };
+	virtual std::string instanciate() { return "../../../../Game/Sprite/GreenSquare.png"; };
 };
 
 template<> class Initialisator<TileType::End> {
 public:
-	virtual std::string instanciate() { return "../../../../Game/Sprite/RedSquareMedium.png"; };
+	virtual std::string instanciate() { return "../../../../Game/Sprite/RedSquare.png"; };
 };
 
 template<> class Initialisator<TileType::Ground> {
 public:
-	virtual std::string instanciate() { return "../../../../Game/Sprite/BlueSquareMedium.png"; };
+	virtual std::string instanciate() { return "../../../../Game/Sprite/BlueSquare.png"; };
 };
 
 template<> class Initialisator<TileType::Wall> {
 public:
-	virtual std::string instanciate() { return "../../../../Game/Sprite/BlueSquareMedium.png"; };
+	virtual std::string instanciate() { return "../../../../Game/Sprite/RedSquare.png"; };
 };
 
 

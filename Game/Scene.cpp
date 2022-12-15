@@ -10,7 +10,7 @@ bool Scene::init()
 {
     window.create(sf::VideoMode(1920, 1080), "SFML works!");
     sf::Texture model;
-    if (!model.loadFromFile("../../../../Game/Sprite/BlueSquareMedium.png"))
+    if (!model.loadFromFile("../../../../Game/Sprite/BlueSquare.png"))
         return false;
    
     TilePosition currentPosition {0, 0};
@@ -25,6 +25,7 @@ bool Scene::init()
 
     //Grille Pathfinder
     Grid* grid = new Grid(tileWidth, tileHeight, sizeTileX, sizeTileY);
+    grid->AddObstacle((int)TileType::Wall);
     astar =new AstarExe(grid);
 
     for (int i = 0; i < tileWidth; i++)
@@ -36,12 +37,16 @@ bool Scene::init()
             tile->SetTileType<TileType::Ground>();
             tile->SetTilePosition(currentPosition);
             //TO TEST PATHFINDING
-            if (currentPosition.x == 7 && currentPosition.y == 4) {
+            if (currentPosition.x == 0 && currentPosition.y == 0) {
                 tile->SetTileType<TileType::Start>();
             }
 
-            if (currentPosition.x == 20 && currentPosition.y == 5) {
+            if (currentPosition.x == 15 && currentPosition.y == 15) {
                 tile->SetTileType<TileType::End>();
+            }
+
+            if (currentPosition.x > 10 && currentPosition.x < 12 && ((currentPosition.y >= 0 && currentPosition.y < 22) || (currentPosition.y > 24 && currentPosition.y < 30))) {
+                tile->SetTileType<TileType::Wall>();
             }
 
             grid->SetNodeInGrid((int)tile->GetTileType(), currentPosition.x, currentPosition.y);
@@ -52,9 +57,8 @@ bool Scene::init()
         currentPosition.y++;
     }
 
+    grid->InitGrid();
     astar->Start();
-   
-    //  grid.SetGrid();
 
     
     return true;
@@ -63,11 +67,14 @@ bool Scene::init()
 void Scene::start() {
     
     while (window.isOpen()) {
+
         sf::Event event;
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
+            {
                 window.close();
+            }
             if (event.type == sf::Event::KeyPressed) {
                 //Update Astar
               
@@ -99,7 +106,6 @@ void Scene::render()
     {
         SpriteRenderer().render(tile->GetSprite(), &window);
     }
-
     
     /*if (start and end)
         pathfinding.render(&windows);*/

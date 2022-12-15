@@ -8,7 +8,7 @@ public:
     int heuristic;
     int cost;
 
-
+    std::vector<Node*> neighbours;
 
     Node* parent = nullptr;
 
@@ -22,8 +22,16 @@ public:
         , cost(0)
     {};
 
+    void AddNeighbour(Node* node) {
+        neighbours.push_back(node);
+    }
+
     Node(int _column, int _line, int _type):column(_column),line(_line),type(_type){};
     ~Node() = default;
+
+    virtual std::vector<Node*> GetNeighbours() const {
+        return neighbours;
+    }
 
     bool Equals(Node* _n) {
         return _n->column == column && _n->line == line;

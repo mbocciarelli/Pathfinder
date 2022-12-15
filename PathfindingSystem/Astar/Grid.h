@@ -41,7 +41,7 @@ public:
 	Node* GetNodeAt(int line, int col)
 	{
 		const unsigned int index = col * m_height + line;
-		std::cout << "Col : " << col << " MHeight : " << m_height << " Line : " << line << std::endl;
+		//std::cout << "Col : " << col << " MHeight : " << m_height << " Line : " << line << std::endl;
 		if (index < m_gridData.size())
 		{
 			return &m_gridData[index];
@@ -95,20 +95,44 @@ public:
 	Node* GetGoalNode() { return m_goalNode; };
 
 
-	void SetNodeInGrid(int type,int tileposX, int tileposY)
+	void SetNodeInGrid(int type, int tileposX, int tileposY)
 	{
 		Node* node = GetNodeAt(tileposX, tileposY);
 		node->type = type;
-		if (type == S_START_TYPE)SetStart(tileposX, tileposY);
-		if (type == S_GOAL_TYPE)SetEnd(tileposX, tileposY);
-		//if (type == S_WALL_TYPE));
+		if (type == S_START_TYPE)
+			SetStart(tileposX, tileposY);
+		if (type == S_GOAL_TYPE)
+			SetEnd(tileposX, tileposY);
 
 		node->column = tileposY;
 		node->line = tileposX;
-		
 	}
 
-	void Draw(sf::RenderWindow& _window, int margeX, int margeY) const
+	void InitGrid()
+	{
+		for (int line = 0; line < m_height; line++)
+			for(int col = 0; col < m_width; col++)
+			{
+				Node* node = GetNodeAt(line, col);
+				if (node->line > 0)
+					AddNeighbour(node, GetNodeAt(node->line - 1, node->column));
+				if (node->line < m_height - 1)
+					AddNeighbour(node, GetNodeAt(node->line + 1, node->column));
+				if (node->column > 0)
+					AddNeighbour(node, GetNodeAt(node->line, node->column - 1));
+				if (node->column < m_width - 1)
+					AddNeighbour(node, GetNodeAt(node->line, node->column + 1));
+			}
+	}
+
+	void AddNeighbour(Node* node, Node* neighbour) {
+		if (!IsAnObstacle(neighbour->type))
+		{
+			node->AddNeighbour(neighbour);
+		}
+	}
+
+	void Draw(sf::RenderWindow& _window, int margeX, int margeY, std::vector<Node*> GoodWay)
 	{
 		//create rect template for the grid
 		sf::RectangleShape rect;
@@ -116,12 +140,22 @@ public:
 		//rect.setSize(sf::Vector2f(25, 25));
 		
 
+		for (auto G : GoodWay)
+		{
+			const Node& node = m_gridData[G->line * m_height + G->column];
+			rect.setFillColor(sf::Color::Green);
+			rect.setPosition(sf::Vector2f(G->line * (m_cellWidth - 10) + margeX + G->line * 10 + ((m_cellWidth - 10) / 4), G->column * (m_cellHeight - 10) + margeY + G->column * 10 + ((m_cellHeight - 10) / 4)));
+			_window.draw(rect);
+			
+		}
+
 		//
-		for (int j = 0; j < m_width; j++) {
+		/*for (int j = 0; j < m_width; j++) {
 			for (int i = 0; i < m_height ; i++) {
 				//get the type of the cell
 				const Node& node = m_gridData[j * m_height + i];
-				
+				rect.setPosition(sf::Vector2f(i * (m_cellWidth - 10) + margeX + i * 10 + ((m_cellWidth - 10) / 4), j * (m_cellHeight - 10) + margeY + j * 10 + ((m_cellHeight - 10) / 4)));
+
 				//Colorize it
 				switch (node.type) {
 				case S_GROUND_TYPE: rect.setFillColor(sf::Color::White); break;
@@ -131,17 +165,18 @@ public:
 				}
 				if (node.visited == true && node.type != Grid::S_START_TYPE) {
 					rect.setFillColor(sf::Color::Magenta);
+					_window.draw(rect);
 				}
 				if (node.finalWayID >= 0) {
 					rect.setFillColor(sf::Color::Green);
+					_window.draw(rect);
 				}
 				//set position 
-				rect.setPosition(sf::Vector2f(i *( m_cellWidth - 10)+ margeX + i*10 + ((m_cellWidth -10)/4), j * (m_cellHeight - 10) + margeY + j * 10 + ((m_cellHeight - 10) / 4)));
 				//rect.setPosition(sf::Vector2f(i * 64, j * 64));
 				//then finally draw
-				_window.draw(rect);
 			}
 		}
+		*/
 	}
 
 
