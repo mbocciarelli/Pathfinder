@@ -3,33 +3,60 @@
 #include "Component/Sprite.hpp"
 #include <vector>
 
+enum TileType {
+	Start = 0, 
+	End, 
+	Ground,
+	Wall
+};
+
+struct InitialisatorBase {
+public :
+	virtual std::string instanciate() = 0;
+	virtual ~InitialisatorBase() {}
+};
+
+template<TileType T>
+struct Initialisator : public InitialisatorBase {
+public:
+	virtual std::string instanciate() override { return ""; };
+};
+
+template<> struct Initialisator<TileType::Start> {
+public:
+	virtual std::string instanciate() { return "../../../../Game/Sprite/GreenSquareMedium.png"; };
+};
+
+template<> class Initialisator<TileType::End> {
+public:
+	virtual std::string instanciate() { return "../../../../Game/Sprite/RedSquareMedium.png"; };
+};
+
+template<> class Initialisator<TileType::Ground> {
+public:
+	virtual std::string instanciate() { return "../../../../Game/Sprite/BlueSquareMedium.png"; };
+};
+
+template<> class Initialisator<TileType::Wall> {
+public:
+	virtual std::string instanciate() { return "../../../../Game/Sprite/BlueSquareMedium.png"; };
+};
+
+
 struct TilePosition
 {
 	int x;
 	int y;
 };
 
-enum class TileType
-{
-    Empty,
-    Wall,
-    Start,
-    End,
-    Path
-};
-
 class Tile
 {
 public:
 	Tile() :
-		mPosition(TilePosition {0, 0})
+		mPosition(TilePosition{ 0, 0 }),
+		mType(TileType::Ground)
 	{
 		mSprite = new Sprite();
-	}
-
-	void create(std::string pathTexture)
-	{
-		mSprite->create(pathTexture);
 	}
 
 	void SetTilePosition(TilePosition pos)
@@ -37,6 +64,21 @@ public:
 		mPosition.x = pos.x;
 		mPosition.y = pos.y;
 	}
+
+	template<TileType type>
+	void SetTileType() 
+	{
+		mType = type;
+		auto path = Initialisator<type>().instanciate();
+		mSprite->CreateSprite(path);
+	}
+
+	TileType GetTileType()
+	{
+		return mType;
+	}
+
+	
 
 	sf::Sprite* GetSprite() {
 		return mSprite->GetSprite();
@@ -69,6 +111,7 @@ public:
 	}
 
 protected :
+	TileType mType;
 	Sprite* mSprite;
 	TilePosition mPosition;
 };

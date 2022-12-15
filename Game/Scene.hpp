@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
-
+#include "Astar/astarsearch.h"
 #include "Entity/Tile.hpp"
 
 struct Button
@@ -61,6 +61,7 @@ public :
 	void render();
 
 private :
+	AstarExe* astar;
 	sf::RenderWindow window;
 	std::vector<Tile*> mTiles;
     std::vector<Button*> mButtons;

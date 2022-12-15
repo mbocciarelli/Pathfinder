@@ -2,13 +2,17 @@
 
 #include "Entity/SquareTile.hpp"
 
+#include "Astar/Grid.h"
+#include "Astar/Node.h"
+
+
 bool Scene::init()
 {
     window.create(sf::VideoMode(1920, 1080), "SFML works!");
     sf::Texture model;
-    if (!model.loadFromFile("/Users/danielchiquet/Documents/tp/Pathfinder/Game/Sprite/BlueSquareMedium.png"))
+    if (!model.loadFromFile("../../../../Game/Sprite/BlueSquareMedium.png"))
         return false;
-
+   
     TilePosition currentPosition {0, 0};
 
     int sizeTileX = model.getSize().x + margeTile.x;
@@ -18,14 +22,29 @@ bool Scene::init()
 
     int tileHeight = mapSizeX / sizeTileX;
     int tileWidth = mapSizeY / sizeTileY;
+
+    //Grille Pathfinder
+    Grid* grid = new Grid(tileWidth, tileHeight, sizeTileX, sizeTileY);
+    astar =new AstarExe(grid);
+
     for (int i = 0; i < tileWidth; i++)
     {
         for (int j = 0; j < tileHeight; j++)
         {
             auto tile = new SquareTile();
             mTiles.push_back(tile);
-            tile->create("/Users/danielchiquet/Documents/tp/Pathfinder/Game/Sprite/BlueSquareMedium.png");
+            tile->SetTileType<TileType::Ground>();
             tile->SetTilePosition(currentPosition);
+            //TO TEST PATHFINDING
+            if (currentPosition.x == 7 && currentPosition.y == 4) {
+                tile->SetTileType<TileType::Start>();
+            }
+
+            if (currentPosition.x == 20 && currentPosition.y == 5) {
+                tile->SetTileType<TileType::End>();
+            }
+
+            grid->SetNodeInGrid((int)tile->GetTileType(), currentPosition.x, currentPosition.y);
 
             currentPosition.x++;
         }
@@ -33,8 +52,11 @@ bool Scene::init()
         currentPosition.y++;
     }
 
+    astar->Start();
+   
+    //  grid.SetGrid();
 
-
+    
     return true;
 }
 
@@ -67,7 +89,6 @@ void Scene::start() {
         }
 
         update();
-
         window.clear();
         render();
         window.display();
@@ -80,6 +101,10 @@ void Scene::update()
     {
         tile->update(margeMap.x, margeMap.y, margeTile.x, margeTile.y);
     }
+   // astar->Update();
+    /*if (start && end)
+        pathfinding.update();*/
+    astar->Update();
 }
 
 void Scene::render()
@@ -88,4 +113,10 @@ void Scene::render()
     {
         SpriteRenderer().render(tile->GetSprite(), &window);
     }
+
+    
+    /*if (start and end)
+        pathfinding.render(&windows);*/
+    astar->Draw(window, margeMap.x, margeMap.y);
+    
 }
