@@ -65,7 +65,7 @@ void Scene::leftClickAction(sf::Vector2i mousePosition)
     Tile* tile = getTile(mousePosition);
     if (tile != nullptr)
     {
-        tile->SetSprite("/Users/danielchiquet/Documents/tp/Pathfinder/Game/Sprite/RedSquareMedium.png");
+        tile->SetTileType<TileType::Wall>();
     }
 }
 
