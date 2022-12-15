@@ -6,7 +6,7 @@ bool Scene::init()
 {
     window.create(sf::VideoMode(1920, 1080), "SFML works!");
     sf::Texture model;
-    if (!model.loadFromFile("D:/Cours Ynov/ProjetM2/Pathfinder/Game/Sprite/BlueSquareMedium.png"))
+    if (!model.loadFromFile("/Users/danielchiquet/Documents/tp/Pathfinder/Game/Sprite/BlueSquareMedium.png"))
         return false;
 
     TilePosition currentPosition {0, 0};
@@ -24,7 +24,7 @@ bool Scene::init()
         {
             auto tile = new SquareTile();
             mTiles.push_back(tile);
-            tile->create("D:/Cours Ynov/ProjetM2/Pathfinder/Game/Sprite/BlueSquareMedium.png");
+            tile->create("/Users/danielchiquet/Documents/tp/Pathfinder/Game/Sprite/BlueSquareMedium.png");
             tile->SetTilePosition(currentPosition);
 
             currentPosition.x++;
@@ -33,8 +33,20 @@ bool Scene::init()
         currentPosition.y++;
     }
 
+
+
     return true;
 }
+
+void Scene::leftClickAction(sf::Vector2i mousePosition)
+{
+    Tile* tile = getTile(mousePosition);
+    if (tile != nullptr)
+    {
+        tile->SetSprite("/Users/danielchiquet/Documents/tp/Pathfinder/Game/Sprite/RedSquareMedium.png");
+    }
+}
+
 
 void Scene::start() {
     
@@ -44,6 +56,14 @@ void Scene::start() {
         {
             if (event.type == sf::Event::Closed)
                 window.close();
+            // if click on tile
+            if (event.type == sf::Event::MouseButtonPressed)
+            {
+                if (event.mouseButton.button == sf::Mouse::Left)
+                {
+                    leftClickAction(sf::Mouse::getPosition(window));
+                }
+            }
         }
 
         update();
