@@ -9,7 +9,6 @@ set(GAME_SOURCES
         State/DefaultState.cpp
         State/StartState.cpp
         State/EndState.cpp
-        State/StateMachine.cpp
         State/WallState.cpp
         State/GroundState.cpp
         State/RunState.cpp

@@ -7,7 +7,7 @@
 
 
 
-IState* RunState::handleInput(Scene& scene, const Input& input) const {
+IState* RunState::handleInput(const Input& input) const {
     switch (input) {
         case Input::Start:
             return new StartState();
@@ -22,4 +22,8 @@ IState* RunState::handleInput(Scene& scene, const Input& input) const {
         default:
             return nullptr;
     }
+}
+
+void RunState::UpdateTile(Tile &tile) const {
+    // do nothing
 }

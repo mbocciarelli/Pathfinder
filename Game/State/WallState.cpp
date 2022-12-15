@@ -6,7 +6,7 @@
 #include "StartState.h"
 
 
-IState* WallState::handleInput(Scene& scene, const Input& input) const {
+IState* WallState::handleInput(const Input& input) const {
     switch (input) {
         case Input::Start:
             return new StartState();
@@ -21,4 +21,8 @@ IState* WallState::handleInput(Scene& scene, const Input& input) const {
         default:
             return nullptr;
     }
+}
+
+void WallState::UpdateTile(Tile &tile) const {
+    tile.SetTileType<TileType::Wall>();
 }

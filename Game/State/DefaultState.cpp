@@ -5,7 +5,7 @@
 #include "WallState.h"
 #include "GroundState.h"
 
-IState *DefaultState::handleInput(Scene& scene, const Input &input) const {
+IState *DefaultState::handleInput(const Input &input) const {
     switch (input) {
         case Input::Start:
             return new StartState();
@@ -20,4 +20,8 @@ IState *DefaultState::handleInput(Scene& scene, const Input &input) const {
         default:
             return nullptr;
     }
+}
+
+void DefaultState::UpdateTile(Tile &tile) const {
+    // do nothing
 }

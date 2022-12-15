@@ -62,11 +62,19 @@ bool Scene::init()
 
 void Scene::leftClickAction(sf::Vector2i mousePosition)
 {
-    Tile* tile = getTile(mousePosition);
-    if (tile != nullptr)
+    if (mousePosition.x > margeMap.x && mousePosition.x < window.getSize().x - margeMap.x)
     {
-        tile->SetTileType<TileType::Wall>();
+        if (mousePosition.y > margeMap.y && mousePosition.y < window.getSize().y - margeMap.y - SizeTileBar)
+        {
+            Tile* tile = getTile(mousePosition);
+            if (tile != nullptr)
+            {
+                //tile->SetTileType<TileType::Wall>();
+                //inputManager->updateTile(*tile);
+            }
+        }
     }
+
 }
 
 

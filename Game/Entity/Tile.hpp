@@ -85,7 +85,7 @@ public:
 	}
 
     void SetSprite(std::string pathTexture){
-        mSprite->create(pathTexture);
+        mSprite->CreateSprite(pathTexture);
     }
 
     bool IsMouseOnTile(sf::Vector2i mousePosition){

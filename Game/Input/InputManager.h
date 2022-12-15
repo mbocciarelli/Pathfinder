@@ -10,11 +10,12 @@ public:
     InputManager() = default;
     ~InputManager() = default;
 
-    IState* handleInput(const Input& input) const;
+    void handleInput(const Input& input, sf::Vector2f& position);
 
     IState* getCurrentState() const;
     void setCurrentState(IState* state);
 
-    void ExecuteState(const Input& input, Scene& scene) const;
+    void updateTile(Tile& tile);
+
 };
 

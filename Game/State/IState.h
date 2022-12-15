@@ -1,7 +1,6 @@
 #pragma once
 
-#include "Scene.hpp"
-#include "../Scene.hpp"
+#include "../Entity/Tile.hpp"
 
 enum class Input {
     Start = 0,
@@ -13,7 +12,11 @@ enum class Input {
 };
 
 class IState {
+private :
+    TileType m_type;
 public:
     virtual ~IState() = default;
-    virtual IState* handleInput(Scene& scene, const Input& input) const = 0;
+    virtual IState* handleInput(const Input& input) const = 0;
+    virtual void UpdateTile(Tile& tile) const = 0;
 };
+

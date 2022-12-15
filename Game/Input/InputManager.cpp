@@ -3,11 +3,14 @@
 //
 
 #include "InputManager.h"
+#include "SFML/Window/Keyboard.hpp"
 
-IState *InputManager::handleInput(const Input &input) const {
-    if (const auto currentState = m_state->handleInput(*this, input); currentState != nullptr && m_state != currentState)
+void InputManager::handleInput(const Input &input, sf::Vector2f& position) {
+    if (const auto currentState = m_state->handleInput(scene, input); currentState != nullptr && m_state != currentState)
     {
         setCurrentState(currentState);
+    } else {
+        m_state->update(scene, position);
     }
 }
 
@@ -18,4 +21,8 @@ IState *InputManager::getCurrentState() const {
 void InputManager::setCurrentState(IState *state) {
     delete m_state;
     m_state = state;
+}
+
+void InputManager::updateTile(Tile &tile) {
+    m_state->UpdateTile(tile);
 }

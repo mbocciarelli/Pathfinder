@@ -6,7 +6,7 @@
 #include "GroundState.h"
 
 
-IState *EndState::handleInput(Scene& scene, const Input& input) const {
+IState *EndState::handleInput(const Input& input) const {
     switch (input) {
         case Input::Start:
             return new StartState();
@@ -21,4 +21,8 @@ IState *EndState::handleInput(Scene& scene, const Input& input) const {
         default:
             return nullptr;
     }
+}
+
+void EndState::UpdateTile(Tile &tile) const {
+    tile.SetTileType<TileType::End>();
 }

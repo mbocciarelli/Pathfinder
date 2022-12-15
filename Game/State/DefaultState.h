@@ -5,8 +5,9 @@
 
 class DefaultState : public IState {
 public:
-    DefaultState() = default;
     ~DefaultState() override = default;
 
-    IState* handleInput(Scene& scene, const Input& input) const override;
+    IState* handleInput(const Input& input) const override;
+
+    void UpdateTile(Tile& tile) const override;
 };

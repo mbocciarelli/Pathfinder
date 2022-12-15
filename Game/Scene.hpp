@@ -4,6 +4,7 @@
 #include <vector>
 #include "Astar/astarsearch.h"
 #include "Entity/Tile.hpp"
+#include "Input/InputManager.h"
 
 struct Button
 {
@@ -65,6 +66,8 @@ private :
 	sf::RenderWindow window;
 	std::vector<Tile*> mTiles;
     std::vector<Button*> mButtons;
+    sf::Event currentEvent;
+    InputManager* inputManager;
 
 	struct Marging {
 		int x;
@@ -80,6 +83,8 @@ private :
         }
         return nullptr;
     }
+
+
 
     void leftClickAction(sf::Vector2i mousePosition);
 

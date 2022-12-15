@@ -9,7 +9,7 @@
 #include "RunState.h"
 #include "WallState.h"
 
-IState *GroundState::handleInput(Scene& Scene, const Input &input) const {
+IState *GroundState::handleInput(const Input &input) const {
     switch (input) {
         case Input::Start:
             return new StartState();
@@ -24,4 +24,8 @@ IState *GroundState::handleInput(Scene& Scene, const Input &input) const {
         default:
             return nullptr;
     }
+}
+
+void GroundState::UpdateTile(Tile &tile) const {
+    tile.SetTileType<TileType::Ground>();
 }
