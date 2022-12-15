@@ -19,15 +19,15 @@ public:
         , line(0)
         , type(0)
         , heuristic(-1)
-        , cost(0)
+        , cost(1)
     {};
+
+    Node(int _column, int _line, int _type):column(_column),line(_line),type(_type){};
+    ~Node() = default;
 
     void AddNeighbour(Node* node) {
         neighbours.push_back(node);
     }
-
-    Node(int _column, int _line, int _type):column(_column),line(_line),type(_type){};
-    ~Node() = default;
 
     virtual std::vector<Node*> GetNeighbours() const {
         return neighbours;

@@ -5,13 +5,14 @@
 #include <iostream>
 #include "Node.h"
 #include "string"
+#include "PortalNode.h"
 
 class Grid
 {
 
 	//Variables
 private:
-	std::vector<Node> m_gridData;
+	std::vector<Node*> m_gridData;
 	Node* m_startingNode;
 	Node* m_goalNode;
 	std::vector<int> obstacles;
@@ -32,9 +33,9 @@ public:
 		const unsigned int index = col * m_height + line;
 		if (index < m_gridData.size())
 		{
-			m_gridData[index].line = line;
-			m_gridData[index].column = col;
-			m_gridData[index].type = type;
+			m_gridData[index]->line = line;
+			m_gridData[index]->column = col;
+			m_gridData[index]->type = type;
 		}
 	};
 
@@ -44,7 +45,7 @@ public:
 		//std::cout << "Col : " << col << " MHeight : " << m_height << " Line : " << line << std::endl;
 		if (index < m_gridData.size())
 		{
-			return &m_gridData[index];
+			return m_gridData[index];
 		}
 
 		return nullptr;
@@ -87,6 +88,8 @@ public:
 
 
 		m_gridData.resize(width * height);
+		for (int i = 0; i < m_gridData.size(); i++)
+			m_gridData[i] = new Node();
 	};
 	~Grid() = default;
 	Node* GetStartNode() { 
@@ -106,6 +109,22 @@ public:
 
 		node->column = tileposY;
 		node->line = tileposX;
+	}
+
+	void SetPortalInGrid(int type, int tilepos_portal1_X, int tilepos_portal1_Y, int tilepos_portal2_X, int tilepos_portal2_Y)
+	{
+		PortalNode* portal1 = new PortalNode();
+		PortalNode* portal2 = new PortalNode();
+
+		m_gridData[tilepos_portal1_Y * m_height + tilepos_portal1_X] = portal1;
+		m_gridData[tilepos_portal2_Y * m_height + tilepos_portal2_X] = portal2;
+		portal1->SetDestination(portal2);
+		portal2->SetDestination(portal1);
+
+		portal1->line = tilepos_portal1_X;
+		portal1->column = tilepos_portal1_Y;
+		portal2->line = tilepos_portal2_X;
+		portal2->column = tilepos_portal2_Y;
 	}
 
 	void InitGrid()
@@ -142,7 +161,6 @@ public:
 
 		for (auto G : GoodWay)
 		{
-			const Node& node = m_gridData[G->column * m_height + G->line];
 			rect.setFillColor(sf::Color::Green);
 			rect.setPosition(sf::Vector2f(G->line * m_cellWidth + margeX, G->column * m_cellHeight + margeY));
 			_window.draw(rect);

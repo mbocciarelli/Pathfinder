@@ -1,6 +1,6 @@
 set(PATHFINDING_SYSTEM_HEADERS
         PathfindingSystem.hpp
-         "Astar/astarsearch.h" "Astar/Node.h" "Astar/Grid.h")
+         "Astar/astarsearch.h" "Astar/Node.h"  "Astar/Grid.h" "Astar/PortalNode.h")
 
 set(PATHFINDING_SYSTEM_SOURCES
         PathfindingSystem.cpp
