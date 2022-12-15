@@ -3,7 +3,7 @@ set(GAME_HEADERS
 
 set(GAME_SOURCES
         main.cpp
-           "Scene.cpp" State/DefaultState.cpp)
+           "Scene.cpp" State/DefaultState.cpp State/StartState.h State/StartState.cpp State/StateMachine.cpp State/GroundState.h State/WallState.h State/WallState.cpp State/WallState.cpp)
 
 find_package(SFML COMPONENTS system window graphics CONFIG REQUIRED)
 add_executable(Game ${GAME_HEADERS} ${GAME_SOURCES})

@@ -13,5 +13,5 @@ enum class Input {
 class IState {
 public:
     virtual ~IState() = default;
-    virtual IState* handleInput(Scene& scene, const Input& input) const = 0;
+    virtual IState* handleInput(Scene& Scene, const Input& input) const = 0;
 };

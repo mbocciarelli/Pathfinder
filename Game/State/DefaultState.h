@@ -7,5 +7,5 @@ public:
     DefaultState() = default;
     ~DefaultState() override = default;
 
-    IState* handleInput(Scene& scene, const Input& input) const override;
+    IState* handleInput(Scene& Scene, const Input& input) const override;
 };

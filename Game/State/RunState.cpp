@@ -1,11 +1,13 @@
-#include "DefaultState.h"
-#include "StartState.h"
-#include "EndState.h"
 #include "RunState.h"
 #include "WallState.h"
 #include "GroundState.h"
+#include "DefaultState.h"
+#include "EndState.h"
+#include "StartState.h"
 
-IState *DefaultState::handleInput(Scene& Scene, const Input &input) const {
+
+
+IState* RunState::handleInput(Scene& Scene, const Input& input) const {
     switch (input) {
         case Input::Start:
             return new StartState();
@@ -16,7 +18,7 @@ IState *DefaultState::handleInput(Scene& Scene, const Input &input) const {
         case Input::Wall:
             return new WallState();
         case Input::Run:
-            return new RunState();
+            return new DefaultState();
         default:
             return nullptr;
     }
