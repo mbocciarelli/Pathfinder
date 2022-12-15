@@ -76,7 +76,9 @@ private:
 		return instance;
 	}
 
+
 public:
+
 	static sf::Texture* GetTexture(TileType type) {
 		return GetInstance()->textureInit.instanciate(type);
 	}

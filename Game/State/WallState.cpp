@@ -5,9 +5,10 @@
 #include "PortalState.h"
 
 
-IState* WallState::handleInput(IState* currentState, const sf::Keyboard::Key& input) const {
-    switch (input) {
-        case sf::Keyboard::S:
+IState* WallState::handleInput(const Input& input) const {
+    switch (input) 
+    {
+        case Input::Start:
             return new StartState();
         case sf::Keyboard::E:
             return new EndState();

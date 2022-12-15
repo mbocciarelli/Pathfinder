@@ -20,6 +20,8 @@ private:
 	int m_cellHeight = 0;
 	int m_width = 0;
 	int m_height = 0;
+	bool startSet = false;
+	bool goalSet = false;
 
 	static const int S_WALL_TYPE = 3;
 	static const int S_GROUND_TYPE = 2;
@@ -52,15 +54,16 @@ public:
 
 	void SetStart(int line, int col) {
 		m_startingNode = GetNodeAt(line, col);
-		
+		startSet = true;
 	}
 
 	void SetEnd(int line, int col) {
 		m_goalNode = GetNodeAt(line, col);
+		goalSet = true;
 	}
 
 	bool StartAndEndSetup() {
-		return m_startingNode != nullptr && m_goalNode != nullptr;
+		return startSet && goalSet;
 	}
 
 	void AddObstacle(int type) {

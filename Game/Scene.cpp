@@ -36,10 +36,67 @@ bool Scene::init()
             mTiles.push_back(tile);
             tile->SetTileType<TileType::Ground>();
             tile->SetTilePosition(currentPosition);
+            //TO TEST PATHFINDING
+           /* if (currentPosition.x == 1 && currentPosition.y == 4) {
+                tile->SetTileType<TileType::Start>();
+            }
+
+            if (currentPosition.x == 20 && currentPosition.y == 10) {
+                tile->SetTileType<TileType::End>();
+            }*/
+
             grid->SetNodeInGrid((int)tile->GetTileType(), currentPosition.x, currentPosition.y);
 
             currentPosition.x++;
         }
+
+        font = new sf::Font();
+        if (!font->loadFromFile("../../../../game/arial.ttf"))
+        {
+            // error...
+            std::cout << "pas de font" << std::endl;
+        };
+        //TEXT ADD START
+        textaddstart = new sf::Text();
+        textaddstart->setFont(*font);
+        textaddstart->setString("Press B to add START");
+        textaddstart->setCharacterSize(24); // in pixels, not points!
+        textaddstart->setFillColor(sf::Color::Green);
+        textaddstart->setStyle(sf::Text::Bold | sf::Text::Underlined);
+        textaddstart->setPosition(150, window.getSize().y - 150);
+        //Text add GOAL
+        textaddgoal = new sf::Text();
+        textaddgoal->setFont(*font);
+        textaddgoal->setString("Press Z to add GOAL");
+        textaddgoal->setCharacterSize(24); // in pixels, not points!
+        textaddgoal->setFillColor(sf::Color::Red);
+        textaddgoal->setStyle(sf::Text::Bold | sf::Text::Underlined);
+        textaddgoal->setPosition(600, window.getSize().y - 150);
+        //TEXT ADD PORTAL
+        textaddportal = new sf::Text();
+        textaddportal->setFont(*font);
+        textaddportal->setString("Press P to add PORTAL");
+        textaddportal->setCharacterSize(24); // in pixels, not points!
+        textaddportal->setFillColor(sf::Color(163,73,164));
+        textaddportal->setStyle(sf::Text::Bold | sf::Text::Underlined);
+        textaddportal->setPosition(1050, window.getSize().y - 150);
+        //TEXT ADD WALL
+        textaddwall = new sf::Text();
+        textaddwall->setFont(*font);
+        textaddwall->setString("Press W to add WALL");
+        textaddwall->setCharacterSize(24); // in pixels, not points!
+        textaddwall->setFillColor(sf::Color(200, 84, 124));
+        textaddwall->setStyle(sf::Text::Bold | sf::Text::Underlined);
+        textaddwall->setPosition(1500, window.getSize().y - 150);
+        //TEXT START PATHFIND
+        textStartPathfinder = new sf::Text();
+        textStartPathfinder->setFont(*font);
+        textStartPathfinder->setString("Press SPACE to use ASTAR");
+        textStartPathfinder->setCharacterSize(24); // in pixels, not points!
+        textStartPathfinder->setFillColor(sf::Color::White);
+        textStartPathfinder->setStyle(sf::Text::Bold | sf::Text::Underlined);
+        textStartPathfinder->setPosition(window.getSize().x/2 - 180, window.getSize().y - 100);
+
         currentPosition.x = 0;
         currentPosition.y++;
     }
@@ -122,6 +179,7 @@ void Scene::start() {
                 {
                     if (grid->StartAndEndSetup() && !astar->IsStart())
                     {
+                     
                         grid->InitGrid();
                         astar->Start();
                     }
@@ -158,4 +216,10 @@ void Scene::render()
     if (astar->IsStart())
         astar->Draw(window, margeMap.x, margeMap.y);
     
+    window.draw(*textaddstart);
+    window.draw(*textaddgoal);
+    window.draw(*textaddwall);
+    window.draw(*textaddportal);
+    window.draw(*textStartPathfinder);
+   // window.draw(*textaddstart);
 }
