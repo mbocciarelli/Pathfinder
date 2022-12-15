@@ -4,6 +4,7 @@
 #include <vector>
 #include "Astar/astarsearch.h"
 #include "Entity/Tile.hpp"
+#include "Input/InputManager.h"
 
 struct Button
 {
@@ -66,6 +67,8 @@ private :
 	sf::RenderWindow window;
 	std::vector<Tile*> mTiles;
     std::vector<Button*> mButtons;
+    sf::Event currentEvent;
+    InputManager* inputManager;
 
     Tile* portal1 = nullptr;
     Tile* portal2 = nullptr;
@@ -75,8 +78,8 @@ private :
 		int y;
 	};
 
+public:
     Tile* getTile(sf::Vector2i mousePosition){
-        //std::cout << "Mouse position : " << mousePosition.x << " ; " << mousePosition.y << std::endl;
         for (Tile* tile : mTiles)
         {
             if (tile->IsMouseOnTile(mousePosition))
@@ -84,6 +87,8 @@ private :
         }
         return nullptr;
     }
+
+
 
     void leftClickAction(sf::Vector2i mousePosition);
 
