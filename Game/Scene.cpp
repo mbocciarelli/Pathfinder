@@ -69,7 +69,7 @@ void Scene::leftClickAction(sf::Vector2i mousePosition)
     Tile* tile = getTile(mousePosition);
     if (tile != nullptr)
     {
-        tile->SetSprite("/Users/danielchiquet/Documents/tp/Pathfinder/Game/Sprite/RedSquareMedium.png");
+        tile->SetTileType<TileType::Wall>();
     }
 }
 
@@ -85,9 +85,12 @@ void Scene::start() {
             {
                 window.close();
             }
-            if (event.type == sf::Event::KeyPressed) {
-                //Update Astar
-              
+            if (event.type == sf::Event::MouseButtonPressed)
+            {
+                if (event.mouseButton.button == sf::Mouse::Left)
+                {
+                    leftClickAction(sf::Mouse::getPosition(window));
+                }
             }
         }
 

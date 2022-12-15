@@ -85,7 +85,7 @@ public:
 	}
 
     void SetSprite(std::string pathTexture){
-        mSprite->create(pathTexture);
+        mSprite->CreateSprite(pathTexture);
     }
 
     bool IsMouseOnTile(sf::Vector2i mousePosition){
@@ -93,8 +93,8 @@ public:
         float width = mSprite->GetSprite()->getLocalBounds().width;
         float height = mSprite->GetSprite()->getLocalBounds().height;
         sf::Vector2f size = sf::Vector2f(width, height);
-        std::cout << "Position : " << position.x << " ; " << position.y << std::endl;
-        std::cout << "Size : " << size.x << " ; " << size.y << std::endl;
+        /*std::cout << "Position : " << position.x << " ; " << position.y << std::endl;
+        std::cout << "Size : " << size.x << " ; " << size.y << std::endl;*/
         if (mousePosition.x >= position.x && mousePosition.x <= position.x + size.x)
         {
             if (mousePosition.y >= position.y && mousePosition.y <= position.y + size.y)

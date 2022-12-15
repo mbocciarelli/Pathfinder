@@ -72,7 +72,7 @@ private :
 	};
 
     Tile* getTile(sf::Vector2i mousePosition){
-        std::cout << "Mouse position : " << mousePosition.x << " ; " << mousePosition.y << std::endl;
+        //std::cout << "Mouse position : " << mousePosition.x << " ; " << mousePosition.y << std::endl;
         for (Tile* tile : mTiles)
         {
             if (tile->IsMouseOnTile(mousePosition))
