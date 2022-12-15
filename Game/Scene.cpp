@@ -59,7 +59,7 @@ bool Scene::init()
         //TEXT ADD START
         textaddstart = new sf::Text();
         textaddstart->setFont(*font);
-        textaddstart->setString("Press B to add START");
+        textaddstart->setString("Press S to select START");
         textaddstart->setCharacterSize(24); // in pixels, not points!
         textaddstart->setFillColor(sf::Color::Green);
         textaddstart->setStyle(sf::Text::Bold | sf::Text::Underlined);
@@ -67,7 +67,7 @@ bool Scene::init()
         //Text add GOAL
         textaddgoal = new sf::Text();
         textaddgoal->setFont(*font);
-        textaddgoal->setString("Press Z to add GOAL");
+        textaddgoal->setString("Press E to select END");
         textaddgoal->setCharacterSize(24); // in pixels, not points!
         textaddgoal->setFillColor(sf::Color::Red);
         textaddgoal->setStyle(sf::Text::Bold | sf::Text::Underlined);
@@ -75,7 +75,7 @@ bool Scene::init()
         //TEXT ADD PORTAL
         textaddportal = new sf::Text();
         textaddportal->setFont(*font);
-        textaddportal->setString("Press P to add PORTAL");
+        textaddportal->setString("Press P to select PORTAL");
         textaddportal->setCharacterSize(24); // in pixels, not points!
         textaddportal->setFillColor(sf::Color(163,73,164));
         textaddportal->setStyle(sf::Text::Bold | sf::Text::Underlined);
@@ -83,7 +83,7 @@ bool Scene::init()
         //TEXT ADD WALL
         textaddwall = new sf::Text();
         textaddwall->setFont(*font);
-        textaddwall->setString("Press W to add WALL");
+        textaddwall->setString("Press W to select WALL");
         textaddwall->setCharacterSize(24); // in pixels, not points!
         textaddwall->setFillColor(sf::Color(200, 84, 124));
         textaddwall->setStyle(sf::Text::Bold | sf::Text::Underlined);
