@@ -4,10 +4,14 @@
 #include "../Scene.hpp"
 
 class StartState : public IState {
+private:
+    TileType* m_tileType;
 public:
-    StartState() = default;
+    StartState() {
+        m_tileType = new TileType(TileType::Start);
+    }
+    ~StartState() override = default;
     IState* handleInput(const Input& input) const override;
 
-    void UpdateTile(Tile& tile) const override;
 };
 

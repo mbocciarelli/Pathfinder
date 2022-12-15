@@ -13,10 +13,16 @@ enum class Input {
 
 class IState {
 private :
-    TileType m_type;
+    TileType* m_tileType;
 public:
+    IState() {
+        m_tileType = nullptr;
+    }
     virtual ~IState() = default;
     virtual IState* handleInput(const Input& input) const = 0;
-    virtual void UpdateTile(Tile& tile) const = 0;
+
+    TileType* getTileType() const{
+        return m_tileType;
+    }
 };
 

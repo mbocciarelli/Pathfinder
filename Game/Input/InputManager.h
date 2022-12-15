@@ -1,6 +1,6 @@
 #pragma once
 #include "../State/IState.h"
-#include "../Scene.hpp"
+#include "Scene.hpp"
 
 class InputManager {
 private:

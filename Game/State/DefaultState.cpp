@@ -22,6 +22,3 @@ IState *DefaultState::handleInput(const Input &input) const {
     }
 }
 
-void DefaultState::UpdateTile(Tile &tile) const {
-    // do nothing
-}

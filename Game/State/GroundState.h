@@ -4,13 +4,15 @@
 #include "../Scene.hpp"
 
 class GroundState :public IState {
+private:
+    TileType* m_tileType;
 public:
-    GroundState() = default;
+    GroundState() {
+        m_tileType = new TileType(TileType::Ground);
+    }
     ~GroundState() = default;
 
     IState* handleInput(const Input& input) const override;
-
-    void UpdateTile(Tile& tile) const override;
 
 };
 

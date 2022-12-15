@@ -24,6 +24,3 @@ IState* RunState::handleInput(const Input& input) const {
     }
 }
 
-void RunState::UpdateTile(Tile &tile) const {
-    // do nothing
-}

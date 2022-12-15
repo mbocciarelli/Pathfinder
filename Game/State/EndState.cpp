@@ -23,6 +23,3 @@ IState *EndState::handleInput(const Input& input) const {
     }
 }
 
-void EndState::UpdateTile(Tile &tile) const {
-    tile.SetTileType<TileType::End>();
-}

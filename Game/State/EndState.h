@@ -3,12 +3,13 @@
 #include "../Scene.hpp"
 
 class EndState : public IState {
+private:
+    TileType* m_tileType;
 public:
-    EndState() = default;
+    EndState() {
+        m_tileType = new TileType(TileType::End);
+    }
     ~EndState() override = default;
 
     IState* handleInput(const Input& input) const override;
-
-    void UpdateTile(Tile& tile) const override;
-
 };

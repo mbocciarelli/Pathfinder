@@ -25,7 +25,3 @@ switch (input) {
             return nullptr;
     }
 }
-
-void StartState::UpdateTile(Tile &tile) const {
-    tile.SetTileType<TileType::Start>();
-}

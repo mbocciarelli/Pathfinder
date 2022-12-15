@@ -22,7 +22,3 @@ IState* WallState::handleInput(const Input& input) const {
             return nullptr;
     }
 }
-
-void WallState::UpdateTile(Tile &tile) const {
-    tile.SetTileType<TileType::Wall>();
-}

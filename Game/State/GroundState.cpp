@@ -26,6 +26,3 @@ IState *GroundState::handleInput(const Input &input) const {
     }
 }
 
-void GroundState::UpdateTile(Tile &tile) const {
-    tile.SetTileType<TileType::Ground>();
-}
